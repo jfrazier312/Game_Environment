@@ -17,6 +17,7 @@ import javafx.beans.Observable;
  */
 abstract class GameObject implements Observable{
 	
+	@XStreamOmitField
 	private Collection<InvalidationListener> invalidationListeners = new HashSet<>();
 	
 	private String name;
@@ -47,7 +48,11 @@ abstract class GameObject implements Observable{
 		if (this.invalidationListeners == null){
 			this.invalidationListeners = new HashSet<>();
 		}
-		this.invalidationListeners.forEach((listener) -> listener.invalidated(this));
+		this.invalidationListeners.forEach((listener) -> {
+			if (listener!=null){
+				listener.invalidated(this);
+			}
+		});
 	}
 	
 	public String getName(){
