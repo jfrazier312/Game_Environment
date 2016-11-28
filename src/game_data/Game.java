@@ -19,7 +19,7 @@ import util.XMLTranslator;
  *
  */
 public class Game extends GameObject{
-	
+
 	List<Level> myLevels;
 	Set<Sprite> spritePresets = new HashSet<>();
 	XMLTranslator myXMLSaver;
