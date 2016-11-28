@@ -2,11 +2,8 @@ package author.view.pages.level_editor.windows;
 
 
 import author.controller.IAuthorController;
-import game_data.Level;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -29,6 +26,7 @@ public abstract class AbstractLevelEditorWindow {
 		initListener(this.authorController);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public abstract <T extends Node> void addChildren(T... child);
 	
 	protected abstract void initListener(IAuthorController authorController);

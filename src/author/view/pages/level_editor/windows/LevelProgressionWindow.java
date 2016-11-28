@@ -27,6 +27,7 @@ public class LevelProgressionWindow extends AbstractLevelEditorWindow {
 		super(authorController);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> void addChildren(T... child) {
 		for (T node : child) {

@@ -35,7 +35,7 @@ import javafx.scene.layout.Pane;
  * This window is the actual level editor, where sprites will be placed from the
  * EntityWindow
  * 
- * @author Jordan Frazier
+ * @author Jordan Frazier, Cleveland Thompson
  * @see EntityWindow
  * @see ../LevelEditor
  */
@@ -56,6 +56,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		createLevelScroller();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> void addChildren(T... child) {
 		for (T node : child) {
@@ -112,17 +113,18 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		myContainer.setOnDragDropped((DragEvent event) -> {
 			if (checkGameHasLevel()) {
-
-				System.out.println("DRAG DROPPED IN PANE");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-					String nodeId = db.getString();
-					Sprite sprite = findSprite(nodeId);
+					Sprite sprite = findSprite(db.getString());
 
+					Sprite clone = sprite.clone();
+					clone.getMyLocation().setLocation(event.getX(), event.getY());
+					initImageListener(clone, sprite);
+					
 					DraggableSprite newSprite;
 					try {
-						newSprite = new ConcreteMovableSprite(sprite);
+						newSprite = new ConcreteMovableSprite(clone);
 					} catch (NullPointerException e) {
 						System.out.println(e.getMessage());
 						e.printStackTrace();
@@ -135,9 +137,6 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 						image.setLayoutY(event.getY());
 						success = true;
 					}
-
-					Sprite clone = sprite.clone();
-					clone.getMyLocation().setLocation(event.getX(), event.getY());
 					this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
 				}
 
@@ -151,6 +150,12 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 				event.acceptTransferModes(TransferMode.MOVE);
 			}
 			event.consume();
+		});
+	}
+	
+	private void initImageListener(Sprite instanceSprite, Sprite spritePreset){
+		spritePreset.addListener((sprite) -> {
+			instanceSprite.setMyImagePath(spritePreset.getMyImagePath());
 		});
 	}
 
@@ -213,7 +218,6 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		updatePane(aLevel);
 		aLevel.addListener((level) -> {
 			updatePane(aLevel);
-			System.out.println("Updated");
 		});
 	}
 

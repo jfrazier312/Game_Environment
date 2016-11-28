@@ -30,6 +30,7 @@ public abstract class DraggableSprite {
 		myImageView = new ImageView(new Image(aSprite.getMyImagePath()));
 		myImageView.setFitHeight(DRAG_IMAGE_WIDTH);
 		myImageView.setFitWidth(DRAG_IMAGE_HEIGHT);
+		initListener(aSprite);
 		makeDraggable();
 		openPreferences();
 	}
@@ -42,6 +43,12 @@ public abstract class DraggableSprite {
 	                System.out.println("Double clicked");
 	            }
 	        }
+		});
+	}
+	
+	private void initListener(Sprite aSprite){
+		aSprite.addListener((sprite) -> {
+			this.myImageView.setImage(new Image(aSprite.getMyImagePath()));
 		});
 	}
 

@@ -18,7 +18,6 @@ import game_data.Sprite;
  */
 public abstract class AuthorModel implements IAuthorModel{
 
-	@SuppressWarnings("unused")
 	private IAuthorController authorController;
 	
 	private Game activeGame;
@@ -58,7 +57,9 @@ public abstract class AuthorModel implements IAuthorModel{
 	@Override
 	public void loadGame(File aFile){
 		XMLTranslator gameLoader = new XMLTranslator();
-		activeGame = (Game) gameLoader.deserialize(aFile);
+		this.activeGame = (Game) gameLoader.deserialize(aFile);
+		this.authorController.reinitializeView();
+		this.activeGame.setName(this.activeGame.getName());
 	}
 	
 	@Override
