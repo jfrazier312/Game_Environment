@@ -27,6 +27,9 @@ abstract class GameObject implements Observable{
 	 */
 	@Override
 	public void addListener(InvalidationListener listener) {
+		if (this.invalidationListeners == null){
+			this.invalidationListeners = new HashSet<>();
+		}
 		this.invalidationListeners.add(listener);
 	}
 
@@ -35,10 +38,16 @@ abstract class GameObject implements Observable{
 	 */
 	@Override
 	public void removeListener(InvalidationListener listener) {
+		if (this.invalidationListeners == null){
+			this.invalidationListeners = new HashSet<>();
+		}
 		this.invalidationListeners.remove(listener);
 	}
 	
 	protected void notifyListeners(){
+		if (this.invalidationListeners == null){
+			this.invalidationListeners = new HashSet<>();
+		}
 		this.invalidationListeners.forEach((listener) -> listener.invalidated(this));
 	}
 	

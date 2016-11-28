@@ -59,7 +59,8 @@ public abstract class AuthorModel implements IAuthorModel{
 	@Override
 	public void loadGame(File aFile){
 		XMLTranslator gameLoader = new XMLTranslator();
-		activeGame = (Game) gameLoader.deserialize(aFile);
+		this.activeGame = (Game) gameLoader.deserialize(aFile);
+		this.activeGame.setName("NewMario");
 	}
 	
 	@Override
