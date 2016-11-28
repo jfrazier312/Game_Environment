@@ -17,7 +17,6 @@ import javafx.beans.Observable;
  */
 abstract class GameObject implements Observable{
 	
-	@XStreamOmitField
 	private Collection<InvalidationListener> invalidationListeners = new HashSet<>();
 	
 	private String name;
