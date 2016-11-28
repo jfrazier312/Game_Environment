@@ -11,7 +11,7 @@ public class FileLoader {
 
 	public enum FileType{
 		ALL(""),
-		PNG("*.jpg"),
+		PNG("*.png"),
 		GIF("*.gif"),
 		JPG("*.jpg"),
 		JPEG("*.jpeg"),
