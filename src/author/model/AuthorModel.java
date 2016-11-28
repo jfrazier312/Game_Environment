@@ -46,7 +46,6 @@ public abstract class AuthorModel implements IAuthorModel{
 	@Override
 	public void newGame(){
 		this.activeGame = new Game("Mario");
-		saveGame("initial");
 	}
 	
 	@Override
@@ -67,7 +66,6 @@ public abstract class AuthorModel implements IAuthorModel{
 	public void saveGame(String aFileName){
 		XMLTranslator gameSaver = new XMLTranslator();
 		gameSaver.saveToFile(activeGame, "XMLGameFiles/", activeGame.getName() + "_" + aFileName);
-		System.out.println(gameSaver.serialize(activeGame));
 	}
 
 }

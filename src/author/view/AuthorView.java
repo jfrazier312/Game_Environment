@@ -35,8 +35,8 @@ public class AuthorView {
 	TabPaneFacade myTabPaneFacade;
 	IAuthorController authorController;
 
+	private SpritesPage mySpritesPage;
 	private ILevelEditorExternal myLevelEditor;
-	private SpritesPage mySpritesPage = new SpritesPage();
 
 	// TODO move these to properties, as well as button names
 	public static final int WIDTH = 800;
@@ -46,7 +46,9 @@ public class AuthorView {
 
 	public AuthorView(IAuthorController authorController) {
 		this.authorController = authorController;
+		this.mySpritesPage = new SpritesPage(authorController);
 		this.myLevelEditor = new LevelEditorFactory().create(this.authorController);
+
 		myScene = new Scene(myPane, WIDTH, HEIGHT, Color.WHITE);
 		myPane.getChildren().addAll(buildToolBar(), buildTabPane());
 		// TESTING SPRITE POSITIONS, DELETE THIS WHENEVER YOU WANT
