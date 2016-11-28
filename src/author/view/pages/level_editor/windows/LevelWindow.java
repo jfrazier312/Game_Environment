@@ -14,6 +14,8 @@ import game_data.Sprite;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -109,36 +111,39 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private void acceptDraggableSprites() {
 
 		myContainer.setOnDragDropped((DragEvent event) -> {
-			System.out.println("DRAG DROPPED IN PANE");
-			Dragboard db = event.getDragboard();
-			boolean success = false;
-			if (db.hasString()) {
-				String nodeId = db.getString();
-				Sprite sprite = findSprite(nodeId);
+			if (checkGameHasLevel()) {
 
-				DraggableSprite newSprite;
-				try {
-					newSprite = new ConcreteMovableSprite(sprite);
-				} catch (NullPointerException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-					throw new NullPointerException();
+				System.out.println("DRAG DROPPED IN PANE");
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasString()) {
+					String nodeId = db.getString();
+					Sprite sprite = findSprite(nodeId);
+
+					DraggableSprite newSprite;
+					try {
+						newSprite = new ConcreteMovableSprite(sprite);
+					} catch (NullPointerException e) {
+						System.out.println(e.getMessage());
+						e.printStackTrace();
+						throw new NullPointerException();
+					}
+
+					ImageView image = newSprite.getImageView();
+					if (image != null) {
+						image.setLayoutX(event.getX());
+						image.setLayoutY(event.getY());
+						success = true;
+					}
+
+					Sprite clone = sprite.clone();
+					clone.getMyLocation().setLocation(event.getX(), event.getY());
+					this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
 				}
-				
-				ImageView image = newSprite.getImageView();
-				if (image != null) {
-					image.setLayoutX(event.getX());
-					image.setLayoutY(event.getY());
-					success = true;
-				}
-				
-				Sprite clone = sprite.clone();
-				clone.getMyLocation().setLocation(event.getX(), event.getY());
-				this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
+
+				event.setDropCompleted(success);
+				event.consume();
 			}
-			
-			event.setDropCompleted(success);
-			event.consume();
 		});
 
 		myContainer.setOnDragOver((DragEvent event) -> {
@@ -147,6 +152,18 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 			}
 			event.consume();
 		});
+	}
+
+	private boolean checkGameHasLevel() {
+		if (this.myController.getModel().getGame().getCurrentLevel() == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("No Level");
+			alert.setHeaderText("No Level created yet.");
+			alert.setContentText("Select New -> New Level to create a new Level before dragging sprites");
+			alert.showAndWait();
+			return false;
+		}
+		return true;
 	}
 
 	private void newBackgroundImage() {
@@ -187,7 +204,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	protected void initListener(IAuthorController authorController) {
 		authorController.getModel().getGame().addListener((game) -> {
 			Level currentLevel = authorController.getModel().getGame().getCurrentLevel();
-			if (currentLevel!=null)
+			if (currentLevel != null)
 				updateLevel(currentLevel);
 		});
 	}
