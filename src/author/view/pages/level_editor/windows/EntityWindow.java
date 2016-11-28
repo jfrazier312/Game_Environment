@@ -45,6 +45,7 @@ public class EntityWindow extends AbstractLevelEditorWindow {
 		controller.getModel().getGame().addPreset(t);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> void addChildren(T... child) {
 		for (T node : child) {
