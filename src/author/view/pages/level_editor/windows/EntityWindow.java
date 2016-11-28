@@ -3,9 +3,7 @@ package author.view.pages.level_editor.windows;
 import author.controller.IAuthorController;
 import author.model.game_observables.draggable_sprite.ConcreteDraggableSprite;
 import author.model.game_observables.draggable_sprite.DraggableSprite;
-import author.model.presets.TestSprite;
 import author.view.util.ToolBarBuilder;
-import game_data.Sprite;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -32,17 +30,6 @@ public class EntityWindow extends AbstractLevelEditorWindow {
 		super(authorController);
 		super.getWindow().getChildren().add(createScroller());
 		styleContainer();
-		addshit(authorController);
-	}
-
-	public void addshit(IAuthorController controller) {
-		Sprite s = TestSprite.MARIO.getSprite();
-		Sprite t = TestSprite.DUKE.getSprite();
-		// DraggableSprite d1 = new ConcreteDraggableSprite(s);
-		// DraggableSprite d2 = new ConcreteDraggableSprite(t);
-		// addChildren(d1.getImageView(), d2.getImageView());
-		controller.getModel().getGame().addPreset(s);
-		controller.getModel().getGame().addPreset(t);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,7 +75,6 @@ public class EntityWindow extends AbstractLevelEditorWindow {
 	protected void initListener(IAuthorController authorController) {
 		authorController.getModel().getGame().addListener((game) -> {
 			this.container.getChildren().clear();
-			System.out.println("yoooo");
 			authorController.getModel().getGame().getPresets().forEach((sprite) -> {
 				DraggableSprite dragSprite = new ConcreteDraggableSprite(sprite);
 				this.container.getChildren().add(dragSprite.getImageView());
