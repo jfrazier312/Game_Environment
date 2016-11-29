@@ -47,12 +47,14 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 	private IntegerProperty horizontalPanes = new SimpleIntegerProperty();
 	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
+	
+	private static final int INITIAL_PANES = 2;
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
 		myController = authorController;
-		horizontalPanes.set(2);
-		verticalPanes.set(2);
+		horizontalPanes.set(INITIAL_PANES);
+		verticalPanes.set(INITIAL_PANES);
 		createLevelScroller();
 	}
 
@@ -96,7 +98,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		// Lol these are staying hard coded, the user gon have to pay extra for
 		// features like changing window size
-		myLevelScroller.setPrefViewportHeight(400);
+		myLevelScroller.setPrefViewportHeight(360);
 		myLevelScroller.setPrefViewportWidth(500);
 
 		myContainer.setPrefHeight(myLevelScroller.getPrefViewportHeight());
@@ -140,7 +142,6 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 					clone.getMyLocation().setLocation(event.getX(), event.getY());
 					this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
 				}
-
 				event.setDropCompleted(success);
 				event.consume();
 			}
@@ -222,11 +223,21 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		if (aLevel.getBackgroundImageFilePath() != null)
 			setBackgroundImage(aLevel.getBackgroundImageFilePath());
 		aLevel.getMySpriteList().forEach((sprite) -> {
-			DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
-			draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
-			draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
-			myContainer.getChildren().add(draggableSprite.getImageView());
+			paintSpriteToWindow(sprite);
 		});
+	}
+
+	private void paintSpriteToWindow(Sprite sprite) {
+		DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
+		styleSpriteImageView(sprite, draggableSprite);
+		myContainer.getChildren().add(draggableSprite.getImageView());
+	}
+
+	private void styleSpriteImageView(Sprite sprite, DraggableSprite draggableSprite) {
+		draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
+		draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
+		draggableSprite.getImageView().setFitWidth(sprite.getMyWidth());
+		draggableSprite.getImageView().setFitHeight(sprite.getMyHeight());
 	}
 
 }
