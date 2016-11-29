@@ -23,13 +23,13 @@ public abstract class AbstractLevelEditorWindow {
 		this.authorController = authorController;
 		createWindow();
 		createToolBar();
-		initListener(this.authorController);
+		initListener();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public abstract <T extends Node> void addChildren(T... child);
 	
-	protected abstract void initListener(IAuthorController authorController);
+	protected abstract void initListener();
 	
 	protected abstract void createToolBar();
 	
@@ -40,6 +40,10 @@ public abstract class AbstractLevelEditorWindow {
 	protected Pane createWindow() {
 		myWindow = new VBox();
 		return myWindow;
+	}
+	
+	protected IAuthorController getController() {
+		return authorController;
 	}
 	
 	protected ImageView getImageView(String path, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){

@@ -72,10 +72,10 @@ public class EntityWindow extends AbstractLevelEditorWindow {
 	 * initListener(author.controller.IAuthorController, game_data.Level)
 	 */
 	@Override
-	protected void initListener(IAuthorController authorController) {
-		authorController.getModel().getGame().addListener((game) -> {
+	protected void initListener() {
+		getController().getModel().getGame().addListener((game) -> {
 			this.container.getChildren().clear();
-			authorController.getModel().getGame().getPresets().forEach((sprite) -> {
+			getController().getModel().getGame().getPresets().forEach((sprite) -> {
 				DraggableSprite dragSprite = new ConcreteDraggableSprite(sprite);
 				this.container.getChildren().add(dragSprite.getImageView());
 			});

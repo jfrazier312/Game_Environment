@@ -209,9 +209,9 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	 * initListener(author.controller.IAuthorController, game_data.Level)
 	 */
 	@Override
-	protected void initListener(IAuthorController authorController) {
-		authorController.getModel().getGame().addListener((game) -> {
-			Level currentLevel = authorController.getModel().getGame().getCurrentLevel();
+	protected void initListener() {
+		getController().getModel().getGame().addListener((game) -> {
+			Level currentLevel = getController().getModel().getGame().getCurrentLevel();
 			if (currentLevel != null)
 				updateLevel(currentLevel);
 		});
