@@ -56,6 +56,7 @@ public class UpdateStates {
 		this.timeElapsed = timeElapsed;
 		this.myKeys = myKeys;
 		this.mySpriteImages=mySpriteImages;
+		this.myKeyMap = new HashMap<KeyCode, Action>();
 		generateDefaultKeyMap();
 		executeCharacteristics();
 		runKeyCalls();
@@ -83,8 +84,8 @@ public class UpdateStates {
 
 	//keys will only control the main player rn
 	private void generateDefaultKeyMap() {
-		//System.out.println(GameResources.MOVE_RIGHT_SPEED.getResource());
-		System.out.println(myLevel.getMainPlayer()==null);
+		//System.out.println(GameResources.MOVE_RIGHT_SPEED.getDoubleResource());
+		//System.out.println(myLevel.getMainPlayer()==null);
 		myKeyMap.put(KeyCode.RIGHT, new MoveRight(myLevel.getMainPlayer(), GameResources.MOVE_RIGHT_SPEED.getDoubleResource()));
 		myKeyMap.put(KeyCode.LEFT, new MoveLeft(myLevel.getMainPlayer(), GameResources.MOVE_LEFT_SPEED.getDoubleResource()));
 		myKeyMap.put(KeyCode.UP, new MoveUp(myLevel.getMainPlayer(), GameResources.JUMP_SPEED.getDoubleResource()));		
@@ -162,6 +163,9 @@ public class UpdateStates {
 	}
 
 	private void updateSpritePosition(Sprite sprite){
+		System.out.println("player x is "+sprite.getMyLocation().getXLocation());
+		System.out.println("player y is "+sprite.getMyLocation().getYLocation());
+		
 		SpritePhysics spritePhysics = null;
 		for(State s: sprite.getStates()){
 			if(s instanceof Physics){
@@ -173,15 +177,25 @@ public class UpdateStates {
 		double curXLoc = myCurrentLocation.getXLocation();
 		double curYLoc = myCurrentLocation.getYLocation();
 		
-		//get initial x velocity component and acceleration 
+		//System.out.println("heading is " + sprite.getMyLocation().getMyHeading());
+		//get initial x velocity component and acceleration
+		System.out.println("heading is " + Math.sin(myCurrentLocation.getMyHeading()));
+
 		double xVelocity = sprite.getMyVelocity()*Math.cos(myCurrentLocation.getMyHeading());
-		double newXVelocity = xVelocity + spritePhysics.getVerticalGravity()*timeElapsed;
+		double newXVelocity = xVelocity + spritePhysics.getHorizontalGravity()*timeElapsed;
 		
 		//get initial y velocity component and acceleration
-		double yVelocity = sprite.getMyVelocity()*Math.sin(myCurrentLocation.getMyHeading()*timeElapsed);
-		double newYVelocity = yVelocity + spritePhysics.getHorizontalGravity();	
+		double yVelocity = sprite.getMyVelocity()*Math.sin(myCurrentLocation.getMyHeading());
+		double newYVelocity = yVelocity + spritePhysics.getVerticalGravity()*timeElapsed;	
 		
-		sprite.setMyVelocity(Math.sqrt(Math.pow(newXVelocity, 2) + Math.pow(newYVelocity, 2)));
+		double newVelocity = Math.sqrt(Math.pow(newXVelocity, 2) + Math.pow(newYVelocity, 2));
+		//double newHeading = Math.atan(newYVelocity/newXVelocity);
+		
+		System.out.println("x velocity is " + newXVelocity);
+		System.out.println("y velocity is " + newYVelocity);
+		
+//		System.out.println("vertical gravity is " + spritePhysics.getVerticalGravity());
+//		System.out.println("horizontal gravity is " + spritePhysics.getHorizontalGravity());
 		
 		// calculate the new x and y locations
 		double myXLocation = curXLoc + newXVelocity*timeElapsed;
@@ -190,6 +204,8 @@ public class UpdateStates {
 		// update the location of the sprite
 //		Location myNewLocation = new Location(myXLocation, myYLocation, Math.asin(newXVelocity/newYVelocity));
 		Location myNewLocation = new Location(myXLocation, myYLocation, myCurrentLocation.getMyHeading());
+		//Location myNewLocation = new Location(myXLocation, myYLocation, newHeading);
+		sprite.setMyVelocity(newVelocity);
 		sprite.setMyLocation(myNewLocation);
 	}
 	

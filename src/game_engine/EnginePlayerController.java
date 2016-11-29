@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import states.Health;
+import states.Physics;
 import states.State;
 public class EnginePlayerController implements IEnginePlayerControllerInterface {
 	private Level myLevel;
@@ -43,6 +44,9 @@ public class EnginePlayerController implements IEnginePlayerControllerInterface 
 		myLevel=myGame.getCurrentLevel();
 		//temporary to see if moving the player works
 		myLevel.setPlayerSprite((Player)myLevel.getMySpriteList().get(0));
+		myLevel.getMainPlayer().addState(new Physics(new SpritePhysics()));
+		myLevel.getMainPlayer().getMyLocation().setMyHeading(-1*270*Math.PI/180);
+		//end temporary stuff
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
 		myWidth=myLevel.getWidth();

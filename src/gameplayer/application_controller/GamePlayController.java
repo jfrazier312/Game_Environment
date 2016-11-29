@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import game_data.Location;
 import game_data.Sprite;
+import game_data.sprites.Player;
 import game_engine.EnginePlayerController;
 import game_engine.GameEngine;
 import game_engine.UpdateGame;
@@ -65,6 +67,7 @@ public class GamePlayController {
 	private void initializeAnimation() {
 		myAnimationLoop = new AnimationLoop();
 		myAnimationLoop.init( elapsedTime -> {
+			deleteSprites();
 			myGameUpdater.update(myGameController.getMyGame(), elapsedTime, myKeySet, mySprites);;
 			updateSprites();
 		});
@@ -79,10 +82,16 @@ public class GamePlayController {
 		updateSprites();
 	}
 	
+	private void deleteSprites() {
+		//mySprites = new HashMap<Sprite, ImageView>();
+		myGamePlay.clear();
+	}
+	
 	private void updateSprites() {
 		for(Sprite sprite : myGameController.getMySpriteList()) {
 			addSpriteToScene(sprite);
 		}
+		//addSpriteToScene(new Player(new Location(227, 369, 0), 50, 50, "poop", "author/images/MarioSMBW.png"));
 	}
 	
 	private void setBackground(String aFilePath, int aWidth, int aHeight) {
