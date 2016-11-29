@@ -6,7 +6,6 @@ package author.model;
 import java.io.File;
 
 import game_data.Game;
-import game_data.Sprite;
 
 /**
  * @author Cleveland Thompson V (ct168), Addison Howenstine

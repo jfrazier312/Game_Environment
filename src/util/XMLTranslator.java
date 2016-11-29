@@ -60,6 +60,7 @@ public class XMLTranslator {
 	 */
 	public Object deserialize(File aFile){
 		XStream mySerializer = new XStream(new DomDriver());
+		mySerializer.autodetectAnnotations(true);
 		return mySerializer.fromXML(aFile);
 	}
 	
