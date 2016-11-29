@@ -3,11 +3,13 @@
 package game_data.characteristics;
 
 import java.util.Map;
-import game_engine.actions.*;
 
 import game_data.Sprite;
 import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
 import game_data.characteristics.characteristic_annotations.ParameterAnnotation;
+import game_data.sprites.Player;
+import game_engine.actions.Action;
+import game_engine.actions.SpeedBoost;
 import javafx.geometry.Side;
 
 /**

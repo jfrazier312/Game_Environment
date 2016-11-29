@@ -4,7 +4,7 @@ import java.util.Map;
 
 import game_data.Sprite;
 import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
-import game_engine.actions.Bounce;
+import game_data.sprites.Player;
 import game_engine.actions.WinLevel;
 import javafx.geometry.Side;
 

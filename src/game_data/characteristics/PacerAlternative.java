@@ -5,12 +5,14 @@ import java.util.Map;
 import game_data.Sprite;
 import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
 import game_data.characteristics.characteristic_annotations.ParameterAnnotation;
+import game_engine.actions.Pace;
 import javafx.geometry.Side;
 
-@CharacteristicAnnotation(name = "Pacer Alternative")
+/**
  * @author austingartside
  * alternative version of pacer where user does not to include bounds, but rather how far it can travel
  */
+ @CharacteristicAnnotation(name = "Pacer Alternative")
 public class PacerAlternative implements Characteristic{
 
 	private static final String VERTICAL = "VERTICAL";

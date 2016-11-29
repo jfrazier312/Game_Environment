@@ -41,4 +41,4 @@ public class HealthPowerUpper extends PowerUpper implements Characteristic{
 		}		
 	}
 
-}}
+}

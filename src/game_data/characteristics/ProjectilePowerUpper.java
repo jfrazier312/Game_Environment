@@ -5,6 +5,7 @@ import java.util.Map;
 import game_data.Sprite;
 import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
 import game_data.characteristics.characteristic_annotations.ParameterAnnotation;
+import game_data.sprites.Player;
 import javafx.geometry.Side;
 
 /**
