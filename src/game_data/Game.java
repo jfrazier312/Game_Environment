@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import util.XMLTranslator;
 
 /**
@@ -18,12 +20,14 @@ import util.XMLTranslator;
  *
  */
 public class Game extends GameObject{
-	
+
 	List<Level> myLevels;
 	Set<Sprite> spritePresets = new HashSet<>();
 	XMLTranslator myXMLSaver;
 	Level currentLevel;
 
+	
+	private Level currentLevel;
 	
 	public Game(String aName){
 		setName(aName);
@@ -52,11 +56,21 @@ public class Game extends GameObject{
 
 	public void addNewLevel(Level aLevel){
 		myLevels.add(aLevel);
+		this.currentLevel = aLevel;
 		this.notifyListeners();
 	}
 	
 	public List<Level> getLevels(){
 		return myLevels;
+	}
+	
+	public void setCurrentLevel(Level aLevel){
+		this.currentLevel = aLevel;
+		this.notifyListeners();
+	}
+	
+	public Level getCurrentLevel(){
+		return this.currentLevel;
 	}
 	
 	public void addPreset(Sprite aPresetSprite){

@@ -3,10 +3,11 @@ package game_data.characteristics;
 import java.util.Map;
 
 import game_data.Sprite;
-import game_engine.actions.Pace;
+import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
+import game_data.characteristics.characteristic_annotations.ParameterAnnotation;
 import javafx.geometry.Side;
 
-/**
+@CharacteristicAnnotation(name = "Pacer Alternative")
  * @author austingartside
  * alternative version of pacer where user does not to include bounds, but rather how far it can travel
  */
@@ -21,6 +22,7 @@ public class PacerAlternative implements Characteristic{
 	private double originalYPosition;
 	private Sprite mySprite;
 	
+	@ParameterAnnotation(parameters = {"Type", "Distance", "Sprite"})
 	public PacerAlternative(String type, double distance, Sprite associatedSprite){
 		myType = type;
 		myDistance = distance;
