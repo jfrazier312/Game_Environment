@@ -8,16 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import game_data.Level;
 import game_data.Location;
 import game_data.Sprite;
 import game_data.characteristics.Characteristic;
 import game_data.sprites.WinningObject;
 import game_engine.actions.Action;
-import game_engine.actions.Jump;
 import game_engine.actions.MoveLeft;
 import game_engine.actions.MoveRight;
+import game_engine.actions.MoveUp;
 import javafx.geometry.Side;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import states.Health;
+import states.LevelWon;
 import states.Physics;
 import states.State;
 
@@ -38,30 +42,50 @@ import states.State;
 
 public class UpdateStates {
 
-	private EnginePlayerController enginePlayerController;
+	private Level myLevel;
 	private List<Sprite> mySpriteList;
 	private double timeElapsed;
 	private KeyCode myKey;
 	private Map<KeyCode, Action> myKeyMap;
 	private Set<KeyCode> myKeys;
-	
-	public UpdateStates(EnginePlayerController enginePlayerController, double timeElapsed, Set<KeyCode> myKeys) {
-		this.enginePlayerController = enginePlayerController;
-		this.mySpriteList = enginePlayerController.getMySpriteList();
+	private Map<Sprite, ImageView> mySpriteImages;
+
+	public UpdateStates(Level aLevel, double timeElapsed, Set<KeyCode> myKeys, Map<Sprite, ImageView> mySpriteImages) {
+		this.myLevel = aLevel;
+		this.mySpriteList = myLevel.getMySpriteList();
 		this.timeElapsed = timeElapsed;
 		this.myKeys = myKeys;
-		
+		this.mySpriteImages=mySpriteImages;
 		generateDefaultKeyMap();
 		executeCharacteristics();
 		runKeyCalls();
 		updateSpritePositions();
+		checkForWin();
+		checkForLoss();
+	}
+
+	private void checkForLoss() {
+		for(State s: myLevel.getMainPlayer().getStates()){
+			if(s instanceof Health){
+				myLevel.setLevelLost(!((Health)s).isAlive());
+			}
+		}
+	}
+
+	private void checkForWin() {
+		for(State s: myLevel.getMainPlayer().getStates()){
+			if(s instanceof LevelWon){
+				myLevel.setLevelWon(((LevelWon)s).isHasWon());
+			}
+		}
+		
 	}
 
 	//keys will only control the main player rn
 	private void generateDefaultKeyMap() {
-		myKeyMap.put(KeyCode.RIGHT, new MoveRight(enginePlayerController.getMyLevel().getMainPlayer(), Double.parseDouble(GameResources.MOVE_RIGHT_SPEED.getResource())));
-		myKeyMap.put(KeyCode.LEFT, new MoveLeft(enginePlayerController.getMyLevel().getMainPlayer(), Double.parseDouble(GameResources.MOVE_LEFT_SPEED.getResource())));
-		myKeyMap.put(KeyCode.UP, new Jump(enginePlayerController.getMyLevel().getMainPlayer(), Double.parseDouble(GameResources.JUMP_SPEED.getResource())));		
+		myKeyMap.put(KeyCode.RIGHT, new MoveRight(myLevel.getMainPlayer(), Double.parseDouble(GameResources.MOVE_RIGHT_SPEED.getResource())));
+		myKeyMap.put(KeyCode.LEFT, new MoveLeft(myLevel.getMainPlayer(), Double.parseDouble(GameResources.MOVE_LEFT_SPEED.getResource())));
+		myKeyMap.put(KeyCode.UP, new MoveUp(myLevel.getMainPlayer(), Double.parseDouble(GameResources.JUMP_SPEED.getResource())));		
 	}
 
 
@@ -76,9 +100,8 @@ public class UpdateStates {
 	private void executeCharacteristics() {
 		for(Sprite mySprite:mySpriteList){
 			
-			ListOfCollidingSprites collidingSprites = new ListOfCollidingSprites(mySprite, mySpriteList, enginePlayerController);
+			ListOfCollidingSprites collidingSprites = new ListOfCollidingSprites(mySprite, mySpriteList, mySpriteImages);
 			Map<Sprite, Side> myCollisionMap = collidingSprites.getCollisionSpriteMap();
-			
 			Set<Characteristic> characteristics = mySprite.getCharacteristics();
 			for(Characteristic myCharacteristic:characteristics){	
 				myCharacteristic.execute(myCollisionMap);

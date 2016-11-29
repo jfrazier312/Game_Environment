@@ -3,14 +3,16 @@ package game_data.characteristics;
 import java.util.Map;
 
 import game_data.Sprite;
+import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
 import game_data.sprites.Player;
-import game_engine.actions.Bounce;
+import game_engine.actions.WinLevel;
 import javafx.geometry.Side;
 
 /**
  * @author austingartside
  *
  */
+@CharacteristicAnnotation(name = "Winnable")
 public class Winnable implements Characteristic{
 	
 	private Sprite mySprite;
@@ -29,8 +31,8 @@ public class Winnable implements Characteristic{
 		//TODO: make and execute win action
 		for(Sprite collidedSprite:myCollisionMap.keySet()){
 			if(collidedSprite instanceof Player){
-				//myAction = new Win();
-				//myAction.act();
+				WinLevel winlevel=new WinLevel(collidedSprite);
+				winlevel.act();
 			}
 		}
 	}

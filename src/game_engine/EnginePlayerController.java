@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import game_data.Sprite;
+import game_data.Game;
 import game_data.Level;
 import game_data.Location;
 import game_data.sprites.Character;
 import javafx.scene.image.ImageView;
 import states.Health;
 import states.State;
-public class EnginePlayerController {
+public class EnginePlayerController implements IEnginePlayerControllerInterface {
 	private Level myLevel;
 	private int myWidth, myHeight;
 	private String myBackgroundImageFilePath;
@@ -21,8 +22,10 @@ public class EnginePlayerController {
 	private List<String> mySpriteImagePathList;
 	private List<Integer> mySpriteHealthList;
 	private List<Boolean> mySpriteIsAliveList;
-	private Map<Sprite, ImageView> mySpriteImages;
+	private Game myGame;
+
 	public EnginePlayerController(){
+		myGame=null;
 		myLevel=null;
 		mySpriteList=null;
 		myBackgroundImageFilePath=null;
@@ -34,10 +37,10 @@ public class EnginePlayerController {
 		mySpriteImagePathList=null;
 		mySpriteHealthList=null;
 		mySpriteIsAliveList=null;
-		mySpriteImages = new HashMap<Sprite, ImageView>();
 	}
-	public EnginePlayerController(Level aLevel){
-		myLevel=aLevel;
+	public EnginePlayerController(Game game){
+		myGame=game;
+		myLevel=myGame.getCurrentLevel();
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
 		myWidth=myLevel.getWidth();
@@ -45,6 +48,8 @@ public class EnginePlayerController {
 		updateSpriteData();
 	}
 	public void updateControllerData(){
+		//need to update level in here
+		
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
 		myWidth=myLevel.getWidth();
@@ -106,10 +111,10 @@ public class EnginePlayerController {
 	public List<Boolean> getMySpriteIsAliveList() {
 		return mySpriteIsAliveList;
 	} 
-	public void addImageView(Sprite aSprite, ImageView aImageView){
-		mySpriteImages.put(aSprite, aImageView);
+	public boolean isLost(){
+		return myLevel.isLevelLost();
 	}
-	public ImageView getImageView(Sprite aSprite){
-		return mySpriteImages.get(aSprite);
+	public Game getMyGame(){
+		return myGame;
 	}
 }

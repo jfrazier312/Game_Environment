@@ -2,26 +2,35 @@ package game_data;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import util.XMLTranslator;
 
 /**
- * A Game has a List of Levels. Each Level may contain Sprites
- * and other elements. A Game can be saved to a serialized XML
- * file to be loaded elsewhere.
+ * A Game has a List of Levels. Each Level may contain Sprites and other
+ * elements. A Game can be saved to a serialized XML file to be loaded
+ * elsewhere.
  * 
- * @author Addison
+ * @author Addison, Cleveland Thompson
  *
  */
-public class Game {
-	
+public class Game extends GameObject {
+
 	List<Level> myLevels;
+	Set<Sprite> spritePresets = new HashSet<>();
 	XMLTranslator myXMLSaver;
-	
-	public Game(){
+	Level currentLevel;
+
+	public Game(String aName) {
+		setName(aName);
 		myLevels = new ArrayList<Level>();
 		myXMLSaver = new XMLTranslator();
+//		currentLevel = myLevels.get(0);
 	}
 
 	/**
@@ -31,12 +40,63 @@ public class Game {
 	 * @param fileName
 	 * @author Addison
 	 */
-	public void saveGameAs(String aFilePath, String aFileName){
-	    myXMLSaver.saveToFile(this, aFilePath, aFileName);
+	public void saveGameAs(String filePath, String fileName) {
+		java.io.FileWriter fw;
+		try {
+			fw = new java.io.FileWriter(filePath + fileName + ".xml");
+			fw.write(((new XMLSaver()).serialize(this)));
+			fw.close();
+		} catch (IOException e) {
+			System.out.println("Trouble printing XML to file");
+		}
 	}
 
-	public void addNewLevel(Level aLevel){
+	public void addNewLevel(Level aLevel) {
 		myLevels.add(aLevel);
+		this.currentLevel = aLevel;
+		this.notifyListeners();
+	}
+
+	public List<Level> getLevels() {
+		return myLevels;
+	}
+
+	public void setCurrentLevel(Level aLevel) {
+		this.currentLevel = aLevel;
+		this.notifyListeners();
+	}
+
+	public void addPreset(Sprite aPresetSprite) {
+		this.spritePresets.add(aPresetSprite);
+		this.notifyListeners();
+	}
+
+	public Set<Sprite> getPresets() {
+		return Collections.unmodifiableSet(this.spritePresets);
+	}
+
+	public List<Level> getMyLevels() {
+		return myLevels;
+	}
+
+	public void setCurrentLevel(int levelNumber) {
+		currentLevel = myLevels.get(levelNumber);
+
+	}
+
+	public Level getCurrentLevel() {
+		return currentLevel;
+	}
+
+	public Level goToNextLevel() {
+		int current = myLevels.indexOf(currentLevel);
+		if (current < myLevels.size()) {
+			currentLevel = myLevels.get(current + 1);
+		} else {
+			// may or may not need to change this code
+			currentLevel = myLevels.get(0);
+		}
+		return currentLevel;
 	}
 
 }
