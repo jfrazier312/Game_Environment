@@ -113,6 +113,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		myContainer.setOnDragDropped((DragEvent event) -> {
 			if (checkGameHasLevel()) {
+				System.out.println("New Sprite on Screen");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
@@ -208,6 +209,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	@Override
 	protected void initListener(IAuthorController authorController) {
 		authorController.getModel().getGame().addListener((game) -> {
+			System.out.println("Level Window Game Listener");
 			Level currentLevel = authorController.getModel().getGame().getCurrentLevel();
 			if (currentLevel != null)
 				updateLevel(currentLevel);
