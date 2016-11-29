@@ -49,6 +49,8 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
 	
 	private static final int INITIAL_PANES = 2;
+	private static final int DEFAULT_LEVEL_WIDTH = 700;
+	private static final int DEFAULT_LEVEL_HEIGHT = 550;
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
@@ -99,8 +101,8 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		// Lol these are staying hard coded, the user gon have to pay extra for
 		// features like changing window size
-		myLevelScroller.setPrefViewportHeight(360);
-		myLevelScroller.setPrefViewportWidth(500);
+		myLevelScroller.setPrefViewportHeight(DEFAULT_LEVEL_HEIGHT);
+		myLevelScroller.setPrefViewportWidth(DEFAULT_LEVEL_WIDTH);
 
 		myContainer.setPrefHeight(myLevelScroller.getPrefViewportHeight());
 		myContainer.setPrefWidth(myLevelScroller.getPrefViewportWidth());

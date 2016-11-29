@@ -44,7 +44,6 @@ class LevelEditPage {
 	
 	private void initPane(){
 		this.container = new VBox();
-		
 		this.container.getChildren().addAll(this.toolBarBuilder.getToolBar(), this.levelEditBox.getEditBox());
 	}
 	
