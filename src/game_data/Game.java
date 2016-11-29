@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import util.XMLTranslator;
 
 /**
@@ -19,7 +21,7 @@ import util.XMLTranslator;
  *
  */
 public class Game extends GameObject{
-	
+
 	List<Level> myLevels;
 	Set<Sprite> spritePresets = new HashSet<>();
 	XMLTranslator myXMLSaver;

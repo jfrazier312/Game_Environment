@@ -14,6 +14,8 @@ import game_data.Sprite;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -33,7 +35,7 @@ import javafx.scene.layout.Pane;
  * This window is the actual level editor, where sprites will be placed from the
  * EntityWindow
  * 
- * @author Jordan Frazier
+ * @author Jordan Frazier, Cleveland Thompson
  * @see EntityWindow
  * @see ../LevelEditor
  */
@@ -45,15 +47,18 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 	private IntegerProperty horizontalPanes = new SimpleIntegerProperty();
 	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
+	
+	private static final int INITIAL_PANES = 2;
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
 		myController = authorController;
-		horizontalPanes.set(2);
-		verticalPanes.set(2);
+		horizontalPanes.set(INITIAL_PANES);
+		verticalPanes.set(INITIAL_PANES);
 		createLevelScroller();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> void addChildren(T... child) {
 		for (T node : child) {
@@ -94,7 +99,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		// Lol these are staying hard coded, the user gon have to pay extra for
 		// features like changing window size
-		myLevelScroller.setPrefViewportHeight(400);
+		myLevelScroller.setPrefViewportHeight(360);
 		myLevelScroller.setPrefViewportWidth(500);
 
 		myContainer.setPrefHeight(myLevelScroller.getPrefViewportHeight());
@@ -109,36 +114,36 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private void acceptDraggableSprites() {
 
 		myContainer.setOnDragDropped((DragEvent event) -> {
-			System.out.println("DRAG DROPPED IN PANE");
-			Dragboard db = event.getDragboard();
-			boolean success = false;
-			if (db.hasString()) {
-				String nodeId = db.getString();
-				Sprite sprite = findSprite(nodeId);
+			if (checkGameHasLevel()) {
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasString()) {
+					Sprite sprite = findSprite(db.getString());
 
-				DraggableSprite newSprite;
-				try {
-					newSprite = new ConcreteMovableSprite(sprite);
-				} catch (NullPointerException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-					throw new NullPointerException();
+					Sprite clone = sprite.clone();
+					clone.getMyLocation().setLocation(event.getX(), event.getY());
+					initImageListener(clone, sprite);
+					
+					DraggableSprite newSprite;
+					try {
+						newSprite = new ConcreteMovableSprite(clone);
+					} catch (NullPointerException e) {
+						System.out.println(e.getMessage());
+						e.printStackTrace();
+						throw new NullPointerException();
+					}
+
+					ImageView image = newSprite.getImageView();
+					if (image != null) {
+						image.setLayoutX(event.getX());
+						image.setLayoutY(event.getY());
+						success = true;
+					}
+					this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
 				}
-				
-				ImageView image = newSprite.getImageView();
-				if (image != null) {
-					image.setLayoutX(event.getX());
-					image.setLayoutY(event.getY());
-					success = true;
-				}
-				
-				Sprite clone = sprite.clone();
-				clone.getMyLocation().setLocation(event.getX(), event.getY());
-				this.myController.getModel().getGame().getCurrentLevel().addNewSprite(clone);
+				event.setDropCompleted(success);
+				event.consume();
 			}
-			
-			event.setDropCompleted(success);
-			event.consume();
 		});
 
 		myContainer.setOnDragOver((DragEvent event) -> {
@@ -147,6 +152,24 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 			}
 			event.consume();
 		});
+	}
+	
+	private void initImageListener(Sprite instanceSprite, Sprite spritePreset){
+		spritePreset.addListener((sprite) -> {
+			instanceSprite.setMyImagePath(spritePreset.getMyImagePath());
+		});
+	}
+
+	private boolean checkGameHasLevel() {
+		if (this.myController.getModel().getGame().getCurrentLevel() == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("No Level");
+			alert.setHeaderText("No Level created yet.");
+			alert.setContentText("Select New -> New Level to create a new Level before dragging sprites");
+			alert.showAndWait();
+			return false;
+		}
+		return true;
 	}
 
 	private void newBackgroundImage() {
@@ -187,7 +210,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	protected void initListener(IAuthorController authorController) {
 		authorController.getModel().getGame().addListener((game) -> {
 			Level currentLevel = authorController.getModel().getGame().getCurrentLevel();
-			if (currentLevel!=null)
+			if (currentLevel != null)
 				updateLevel(currentLevel);
 		});
 	}
@@ -196,7 +219,6 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		updatePane(aLevel);
 		aLevel.addListener((level) -> {
 			updatePane(aLevel);
-			System.out.println("Updated");
 		});
 	}
 
@@ -205,11 +227,21 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		if (aLevel.getBackgroundImageFilePath() != null)
 			setBackgroundImage(aLevel.getBackgroundImageFilePath());
 		aLevel.getMySpriteList().forEach((sprite) -> {
-			DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
-			draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
-			draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
-			myContainer.getChildren().add(draggableSprite.getImageView());
+			paintSpriteToWindow(sprite);
 		});
+	}
+
+	private void paintSpriteToWindow(Sprite sprite) {
+		DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
+		styleSpriteImageView(sprite, draggableSprite);
+		myContainer.getChildren().add(draggableSprite.getImageView());
+	}
+
+	private void styleSpriteImageView(Sprite sprite, DraggableSprite draggableSprite) {
+		draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
+		draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
+		draggableSprite.getImageView().setFitWidth(sprite.getMyWidth());
+		draggableSprite.getImageView().setFitHeight(sprite.getMyHeight());
 	}
 
 }

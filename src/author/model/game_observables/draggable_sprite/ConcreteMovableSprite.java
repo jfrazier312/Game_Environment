@@ -29,7 +29,6 @@ public class ConcreteMovableSprite extends DraggableSprite {
 			mouseX = event.getSceneX();
 			mouseY = event.getSceneY();
 			super.getSprite().getMyLocation().setLocation(super.getImageView().getLayoutX(), super.getImageView().getLayoutY());
-			System.out.println("mouse dragged: " + super.getImageView().getLayoutX() + ", " + super.getImageView().getLayoutY());
 		});
 	}
 
