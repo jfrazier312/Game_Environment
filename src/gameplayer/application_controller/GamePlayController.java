@@ -1,8 +1,11 @@
 package gameplayer.application_controller;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import game_data.Sprite;
 import game_engine.EnginePlayerController;
 import game_engine.GameEngine;
@@ -31,11 +34,12 @@ public class GamePlayController {
 	private Map<Sprite, ImageView> mySprites;
 	private Set<KeyCode> myKeySet;
 	
-	public GamePlayController(Stage aStage, String aFilePath) {
+	public GamePlayController(Stage aStage, File aFile) {
 		myStage = aStage;
 		myKeySet = new HashSet<KeyCode>();
 		myStack = new StackPane();
-		initializeEngine(aFilePath, 0);
+		mySprites = new HashMap<Sprite, ImageView>();
+		initializeEngine(aFile, 0);
 		initializeAnimation();
 		initializeScene();
 	}
@@ -46,8 +50,8 @@ public class GamePlayController {
 		resetStage();
 	}
 
-	private void initializeEngine(String aFilePath, int level) {
-		myGameEngine = new GameEngine(aFilePath, level);
+	private void initializeEngine(File aFile, int level) {
+		myGameEngine = new GameEngine(aFile, level);
 		myGameController = myGameEngine.getMyEnginePlayerController();
 		myGameUpdater = new UpdateGame();
 	}

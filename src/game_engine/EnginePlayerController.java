@@ -1,14 +1,14 @@
 package game_engine;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import game_data.Sprite;
 import game_data.Game;
 import game_data.Level;
 import game_data.Location;
+import game_data.Sprite;
 import game_data.sprites.Character;
-import javafx.scene.image.ImageView;
+import game_data.sprites.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import states.Health;
 import states.State;
 public class EnginePlayerController implements IEnginePlayerControllerInterface {
@@ -28,23 +28,31 @@ public class EnginePlayerController implements IEnginePlayerControllerInterface 
 		myGame=null;
 		myLevel=null;
 		mySpriteList=null;
-		myBackgroundImageFilePath=null;
+		myBackgroundImageFilePath= "";
 		myWidth=0;
 		myHeight=0;
-		mySpriteXCoordinateList=null;
-		mySpriteYCoordinateList=null;
-		mySpriteHeadingList=null;
-		mySpriteImagePathList=null;
-		mySpriteHealthList=null;
-		mySpriteIsAliveList=null;
+		mySpriteXCoordinateList=new ArrayList<>();
+		mySpriteYCoordinateList=new ArrayList<>();
+		mySpriteHeadingList=new ArrayList<>();
+		mySpriteImagePathList=new ArrayList<>();
+		mySpriteHealthList=new ArrayList<>();
+		mySpriteIsAliveList=new ArrayList<>();
 	}
 	public EnginePlayerController(Game game){
 		myGame=game;
 		myLevel=myGame.getCurrentLevel();
+		//temporary to see if moving the player works
+		myLevel.setPlayerSprite((Player)myLevel.getMySpriteList().get(0));
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
 		myWidth=myLevel.getWidth();
 		myHeight=myLevel.getHeight();
+		mySpriteXCoordinateList=new ArrayList<>();
+		mySpriteYCoordinateList=new ArrayList<>();
+		mySpriteHeadingList=new ArrayList<>();
+		mySpriteImagePathList=new ArrayList<>();
+		mySpriteHealthList=new ArrayList<>();
+		mySpriteIsAliveList=new ArrayList<>();
 		updateSpriteData();
 	}
 	public void updateControllerData(){
@@ -59,22 +67,28 @@ public class EnginePlayerController implements IEnginePlayerControllerInterface 
 	private void updateSpriteData(){
 		for(int i=0; i<mySpriteList.size(); i++){
 			Object sprite = mySpriteList.get(i);
-			mySpriteImagePathList.set(i, ((Sprite) sprite).getMyImagePath());
+//			mySpriteImagePathList.set(i, ((Sprite) sprite).getMyImagePath());
+			mySpriteImagePathList.add(((Sprite) sprite).getMyImagePath());
 			Location location = ((Sprite) sprite).getMyLocation();
-			mySpriteXCoordinateList.set(i, location.getXLocation());
-			mySpriteYCoordinateList.set(i, location.getYLocation());
-			mySpriteHeadingList.set(i, location.getMyHeading());
+//			mySpriteXCoordinateList.set(i, location.getXLocation());
+			mySpriteXCoordinateList.add(location.getXLocation());
+//			mySpriteYCoordinateList.set(i, location.getYLocation());
+			mySpriteYCoordinateList.add(location.getYLocation());
+//			mySpriteHeadingList.set(i, location.getMyHeading());
+			mySpriteHeadingList.add(location.getMyHeading());
 			if(sprite instanceof Character){
 				for(State myState:((Character) sprite).getStates()){
 					if(myState instanceof Health){
-						mySpriteHealthList.set(i, ((Health) myState).getMyHealth());
-						mySpriteIsAliveList.set(i, ((Health) sprite).isAlive());
+//						mySpriteHealthList.set(i, ((Health) myState).getMyHealth());
+						mySpriteHealthList.add( ((Health) myState).getMyHealth());
+						mySpriteIsAliveList.add( ((Health) sprite).isAlive());
+//						mySpriteIsAliveList.set(i, ((Health) sprite).isAlive());
 					}
 				}
 			}
 			else{
-				mySpriteHealthList.set(i, null);
-				mySpriteIsAliveList.set(i, null);
+//				mySpriteHealthList.set(i, null);
+//				mySpriteIsAliveList.set(i, null);
 			}
 		}
 	}
