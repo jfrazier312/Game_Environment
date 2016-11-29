@@ -50,19 +50,16 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private Pane currentContainer;
 	private IAuthorController myController;
 	
-	private IntegerProperty horizontalPanes = new SimpleIntegerProperty();
-	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
+	private IntegerProperty horizontalPanes = new SimpleIntegerProperty(1);
+	private IntegerProperty verticalPanes = new SimpleIntegerProperty(1);
 	private Map<Level, Pane> levelPanes = new HashMap<>();
 	
-	private static final int INITIAL_PANES = 2;
-	private static final int DEFAULT_LEVEL_WIDTH = 700;
-	private static final int DEFAULT_LEVEL_HEIGHT = 550;
+//	private static final int DEFAULT_LEVEL_WIDTH = 700;
+//	private static final int DEFAULT_LEVEL_HEIGHT = 550;
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
 		myController = authorController;
-		horizontalPanes.set(INITIAL_PANES);
-		verticalPanes.set(INITIAL_PANES);
 		createLevelScroller();
 	}
 
@@ -85,10 +82,10 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 			// TODO: Jordan(vooga) - Add functionality to changing theme
 			System.out.println("Change theme here");
 		}).getButton(), new ButtonFactory().createButton("Extend Right", e -> {
-			currentContainer.setPrefWidth(myLevelScroller.getPrefViewportWidth() * horizontalPanes.get());
+			//currentContainer.setPrefWidth(myLevelScroller.getPrefViewportWidth() * horizontalPanes.get());
 			horizontalPanes.set(horizontalPanes.get() + 1);
 		}).getButton(), new ButtonFactory().createButton("Extend Down", e -> {
-			currentContainer.setPrefHeight(myLevelScroller.getPrefViewportHeight() * verticalPanes.get());
+			//currentContainer.setPrefHeight(myLevelScroller.getPrefViewportHeight() * verticalPanes.get());
 			verticalPanes.set(verticalPanes.get() + 1);
 		}).getButton());
 
@@ -99,13 +96,16 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		myLevelScroller = new ScrollPane();
 		
 
-		myLevelScroller.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		myLevelScroller.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		myLevelScroller.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		myLevelScroller.setHbarPolicy(ScrollBarPolicy.ALWAYS);
 
 		// Lol these are staying hard coded, the user gon have to pay extra for
 		// features like changing window size
-		myLevelScroller.setPrefViewportHeight(DEFAULT_LEVEL_HEIGHT);
-		myLevelScroller.setPrefViewportWidth(DEFAULT_LEVEL_WIDTH);
+		//myLevelScroller.prefViewportWidthProperty().bind(this.getWindow().widthProperty().multiply(horizontalPanes).subtract(myLevelScroller.paddingProperty().get().getRight() + myLevelScroller.paddingProperty().get().getLeft()));
+		//myLevelScroller.prefViewportHeightProperty().bind(this.getWindow().heightProperty().multiply(verticalPanes).subtract(myLevelScroller.paddingProperty().get().getTop() + myLevelScroller.paddingProperty().get().getBottom()));
+		myLevelScroller.prefViewportWidthProperty().bind(this.getWindow().widthProperty());
+		myLevelScroller.prefViewportHeightProperty().bind(this.getWindow().heightProperty());
+		//myLevelScroller.setPrefViewportWidth(DEFAULT_LEVEL_WIDTH);
 
 		
 		this.currentContainer = createLevelPane();
@@ -120,9 +120,15 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		levelPane.setOnDragEntered(e -> {
 			System.out.println("Drag entered level editor pane");
 		});
-		levelPane.setPrefHeight(myLevelScroller.getPrefViewportHeight());
-		levelPane.setPrefWidth(myLevelScroller.getPrefViewportWidth());
+		this.myLevelScroller.viewportBoundsProperty().addListener((listener) -> updatePane(levelPane));
+		this.horizontalPanes.addListener((listener) -> updatePane(levelPane));
+		this.verticalPanes.addListener((listener) -> updatePane(levelPane));
 		return levelPane;
+	}
+	
+	private void updatePane(Pane levelPane){
+		levelPane.setPrefWidth(this.myLevelScroller.getViewportBounds().getWidth() * this.horizontalPanes.get());
+		levelPane.setPrefHeight(this.myLevelScroller.getViewportBounds().getHeight() * this.verticalPanes.get());
 	}
 
 	private void acceptDraggableSprites() {
