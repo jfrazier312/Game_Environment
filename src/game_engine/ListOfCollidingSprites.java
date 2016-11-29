@@ -6,18 +6,19 @@ import java.util.Map;
 
 import game_data.Sprite;
 import javafx.geometry.Side;
+import javafx.scene.image.ImageView;
 
 public class ListOfCollidingSprites {
 	
 	private Sprite targetSprite;
 	private List<Sprite> spriteList;
 	private Map<Sprite, Side> collisionSprites;
-	private EnginePlayerController myEnginePlayerController;
+	private Map<Sprite, ImageView> mySpriteImages;
 
-	public ListOfCollidingSprites(Sprite targetSprite, List<Sprite> spriteList, EnginePlayerController engineController) {
+	public ListOfCollidingSprites(Sprite targetSprite, List<Sprite> spriteList, Map<Sprite, ImageView> spriteImages) {
 		this.targetSprite =targetSprite;
 		this.spriteList = spriteList;
-		myEnginePlayerController = engineController;
+		this.mySpriteImages=spriteImages;
 		getListOfSpritesCollided();
 	}
 	
@@ -25,7 +26,7 @@ public class ListOfCollidingSprites {
 		collisionSprites = new HashMap<Sprite, Side>();
 		
 		for(Sprite mySprite:spriteList){
-			if(mySprite != targetSprite && myEnginePlayerController.getImageView(mySprite).getBoundsInLocal().intersects(myEnginePlayerController.getImageView(targetSprite).getBoundsInLocal())){
+			if(mySprite != targetSprite && mySpriteImages.get(mySprite).getBoundsInLocal().intersects(mySpriteImages.get(targetSprite).getBoundsInLocal())){
 				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
 			}
 		}	
