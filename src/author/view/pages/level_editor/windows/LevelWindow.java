@@ -1,6 +1,8 @@
 package author.view.pages.level_editor.windows;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import author.controller.IAuthorController;
 import author.model.game_observables.draggable_sprite.ConcreteMovableSprite;
@@ -44,9 +46,11 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private ScrollPane myLevelScroller;
 	private Pane myContainer;
 	private IAuthorController myController;
-
+	
 	private IntegerProperty horizontalPanes = new SimpleIntegerProperty();
 	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
+	
+	private Set<DraggableSprite> draggableSprites = new HashSet<>();
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
@@ -219,16 +223,25 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private void updateLevel(Level aLevel) {
 		updatePane(aLevel);
 		aLevel.addListener((level) -> {
+			System.out.println("Level Window Level Listener");
 			updatePane(aLevel);
 		});
 	}
 
 	private void updatePane(Level aLevel) {
-		myContainer.getChildren().clear();
+		//this.myContainer.getChildren().clear();
 		if (aLevel.getBackgroundImageFilePath() != null)
 			setBackgroundImage(aLevel.getBackgroundImageFilePath());
-		aLevel.getMySpriteList().forEach((sprite) -> {
+		
+		//only add new sprites, might make set of sprites
+		Set<Sprite> sprites = new HashSet<>();
+		this.draggableSprites.forEach((draggableSprite) -> sprites.add(draggableSprite.getSprite()));
+		Set<Sprite> levelSprites = new HashSet<>(aLevel.getMySpriteList());
+		levelSprites.removeAll(sprites);
+		
+		levelSprites.forEach((sprite) -> {
 			DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
+			this.draggableSprites.add(draggableSprite);
 			draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
 			draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
 			myContainer.getChildren().add(draggableSprite.getImageView());
