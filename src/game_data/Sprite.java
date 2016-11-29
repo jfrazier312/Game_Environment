@@ -14,6 +14,7 @@ import game_data.characteristics.Characteristic;
 public abstract class Sprite extends GameObject {
 
 	private Location myLocation;
+	private Sprite preset;
 	private int myWidth;
 	private int myHeight;
 	private String myImagePath;
@@ -38,6 +39,7 @@ public abstract class Sprite extends GameObject {
 	
 	//for copying sprites
 	public Sprite(Sprite aSprite){
+		preset = aSprite;
 		myLocation = new Location(aSprite.getMyLocation().getXLocation(),
 				aSprite.getMyLocation().getYLocation(), aSprite.getMyLocation().getMyHeading());
 		myWidth = aSprite.getMyWidth();
@@ -141,6 +143,7 @@ public abstract class Sprite extends GameObject {
 
 	public void setMyWidth(int myWidth) {
 		this.myWidth = myWidth;
+		notifyListeners();
 	}
 
 	public int getMyHeight() {
@@ -149,6 +152,11 @@ public abstract class Sprite extends GameObject {
 
 	public void setMyHeight(int myHeight) {
 		this.myHeight = myHeight;
+		notifyListeners();
+	}
+	
+	public Sprite getPreset(){
+		return this.preset;
 	}
 
 }
