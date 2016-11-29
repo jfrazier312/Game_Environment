@@ -53,12 +53,16 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private IntegerProperty horizontalPanes = new SimpleIntegerProperty();
 	private IntegerProperty verticalPanes = new SimpleIntegerProperty();
 	private Map<Level, Pane> levelPanes = new HashMap<>();
+	
+	private static final int INITIAL_PANES = 2;
+	private static final int DEFAULT_LEVEL_WIDTH = 700;
+	private static final int DEFAULT_LEVEL_HEIGHT = 550;
 
 	public LevelWindow(IAuthorController authorController) {
 		super(authorController);
 		myController = authorController;
-		horizontalPanes.set(2);
-		verticalPanes.set(2);
+		horizontalPanes.set(INITIAL_PANES);
+		verticalPanes.set(INITIAL_PANES);
 		createLevelScroller();
 	}
 
@@ -100,8 +104,8 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 
 		// Lol these are staying hard coded, the user gon have to pay extra for
 		// features like changing window size
-		myLevelScroller.setPrefViewportHeight(400);
-		myLevelScroller.setPrefViewportWidth(500);
+		myLevelScroller.setPrefViewportHeight(DEFAULT_LEVEL_HEIGHT);
+		myLevelScroller.setPrefViewportWidth(DEFAULT_LEVEL_WIDTH);
 
 		
 		this.currentContainer = createLevelPane();
@@ -152,7 +156,6 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 					}
 					
 				}
-
 				event.setDropCompleted(success);
 				event.consume();
 			}
@@ -241,8 +244,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 		acceptDraggableSprites();
 		//clearAndRemoveListeners();
 		if (aLevel.getBackgroundImageFilePath() != null)
-			setBackgroundImage(aLevel.getBackgroundImageFilePath());
-		
+			setBackgroundImage(aLevel.getBackgroundImageFilePath());		
 		//only add new sprites, might make set of sprites
 		Set<Sprite> levelSprites = this.getNewSprites(this.getDraggableSprites(), aLevel.getMySpriteList());
 		
@@ -250,8 +252,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 			initPresetListener(sprite, sprite.getPreset());
 			DraggableSprite draggableSprite = new ConcreteMovableSprite(sprite);
 			this.addDraggableSprite(draggableSprite);
-			draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
-			draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
+			styleSpriteImageView(sprite, draggableSprite);
 			currentContainer.getChildren().add(draggableSprite.getImageView());
 		});
 	}
@@ -272,5 +273,13 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 			this.myController.getModel().getGame().getPresets().forEach((preset) -> preset.removeListener(listener));
 		});
 	}*/
+
+
+	private void styleSpriteImageView(Sprite sprite, DraggableSprite draggableSprite) {
+		draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
+		draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
+		draggableSprite.getImageView().setFitWidth(sprite.getMyWidth());
+		draggableSprite.getImageView().setFitHeight(sprite.getMyHeight());
+	}
 
 }
