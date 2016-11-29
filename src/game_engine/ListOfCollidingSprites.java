@@ -19,6 +19,7 @@ public class ListOfCollidingSprites {
 		this.targetSprite =targetSprite;
 		this.spriteList = spriteList;
 		this.mySpriteImages=spriteImages;
+		//collisionSprites = new HashMap<Sprite, Side>();
 		getListOfSpritesCollided();
 	}
 	
