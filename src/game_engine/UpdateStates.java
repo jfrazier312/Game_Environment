@@ -83,9 +83,11 @@ public class UpdateStates {
 
 	//keys will only control the main player rn
 	private void generateDefaultKeyMap() {
-		myKeyMap.put(KeyCode.RIGHT, new MoveRight(myLevel.getMainPlayer(), Double.parseDouble(GameResources.MOVE_RIGHT_SPEED.getResource())));
-		myKeyMap.put(KeyCode.LEFT, new MoveLeft(myLevel.getMainPlayer(), Double.parseDouble(GameResources.MOVE_LEFT_SPEED.getResource())));
-		myKeyMap.put(KeyCode.UP, new MoveUp(myLevel.getMainPlayer(), Double.parseDouble(GameResources.JUMP_SPEED.getResource())));		
+		//System.out.println(GameResources.MOVE_RIGHT_SPEED.getResource());
+		System.out.println(myLevel.getMainPlayer()==null);
+		myKeyMap.put(KeyCode.RIGHT, new MoveRight(myLevel.getMainPlayer(), GameResources.MOVE_RIGHT_SPEED.getDoubleResource()));
+		myKeyMap.put(KeyCode.LEFT, new MoveLeft(myLevel.getMainPlayer(), GameResources.MOVE_LEFT_SPEED.getDoubleResource()));
+		myKeyMap.put(KeyCode.UP, new MoveUp(myLevel.getMainPlayer(), GameResources.JUMP_SPEED.getDoubleResource()));		
 	}
 
 
