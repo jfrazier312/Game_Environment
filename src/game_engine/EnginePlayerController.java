@@ -52,7 +52,7 @@ public class EnginePlayerController implements IEnginePlayerControllerInterface 
 		myLevel.addNewSprite(new Terrain(new Location(226, 500, 90), 100, 100, "block", "author/images/duvall_scary.png"));
 		myLevel.getMySpriteList().get(1).addCharacteristic(new Bouncer(20, myLevel.getMySpriteList().get(1)));
 		myLevel.getMySpriteList().get(1).addState(new Physics(new SpritePhysics(0.0)));
-		//
+		
 		//end temporary stuff
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
