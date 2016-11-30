@@ -39,13 +39,16 @@ public class ListOfCollidingSprites {
 				//image.intersects(localBounds)
 				//image.getBoundsInLocal().int
 				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
-			}
+			
+			}}
 			/*if(!mySprite.getName().equals(targetSprite.getName()) && mySprite.getMyLocation().getYLocation()<targetSprite.getMyLocation().getYLocation()+10
 					&&mySprite.getMyLocation().getYLocation()>targetSprite.getMyLocation().getYLocation()-10){
 				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
 			}
 		}	
 		//System.out.println("numColliding " + collisionSprites.size());
+		return collisionSprites;
+	}*/
 		return collisionSprites;
 	}
 
