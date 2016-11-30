@@ -59,7 +59,8 @@ public class UpdateStates {
 		this.mySpriteImages=mySpriteImages;
 		//how do I make an ImageView
 		//hardcode
-		this.mySpriteImages.put(mySpriteList.get(1), new ImageView(mySpriteList.get(1).getMyImagePath()));
+		//ImageView view = new ImageView(mySpriteList.get(1).getMyImagePath());
+		//this.mySpriteImages.put(mySpriteList.get(1), view);
 		//end hardcode
 		this.myKeyMap = new HashMap<KeyCode, Action>();
 		generateDefaultKeyMap();
@@ -174,7 +175,7 @@ public class UpdateStates {
 		//System.out.println("player y is "+sprite.getMyLocation().getYLocation());
 		
 		SpritePhysics spritePhysics = null;
-		//System.out.println(sprite.getName());
+		//System.out.println(sprite.getStates().size());
 		for(State s: sprite.getStates()){
 			if(s instanceof Physics){
 				spritePhysics = ((Physics) s).getPhysics();

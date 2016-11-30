@@ -4,7 +4,7 @@ package game_engine;
 public enum GameResources {
     GAME_TITLE("GAME TITLE HERE"),
     
-    DEFAULT_VERTICAL_GRAVITY(9.8),
+    DEFAULT_VERTICAL_GRAVITY(39.8),
     DEFAULT_HORIZONTAL_GRAVITY(0.0),
     
     //Default accelerations
