@@ -26,6 +26,7 @@ public class LevelSelectionWindow extends AbstractLevelEditorWindow {
 		super(authorController);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> void addChildren(T... child) {
 		for (T node : child) {
@@ -65,8 +66,14 @@ public class LevelSelectionWindow extends AbstractLevelEditorWindow {
 		authorController.getModel().getGame().addListener((game) -> {
 			this.container.getChildren().clear();
 			authorController.getModel().getGame().getLevels().forEach((level) ->{
-				this.container.getChildren().add(new Label(level.getName()));
+				Label label = new Label(level.getName());
+				label.setOnMouseClicked(e -> updateCurrentLevel(level, authorController));
+				this.container.getChildren().add(label);
 			});
 		});
+	}
+	
+	private void updateCurrentLevel(Level aNewCurrentLevel, IAuthorController authorController){
+		authorController.getModel().getGame().setCurrentLevel(aNewCurrentLevel);
 	}
 }
