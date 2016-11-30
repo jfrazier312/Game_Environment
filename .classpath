@@ -42,6 +42,6 @@
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xalan-2.7.2.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xercesImpl-2.11.0.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xml-apis-1.4.01.jar"/>
-	<classpathentry kind="lib" path="jar/restfb-1.34.1.jar"/>
+	<classpathentry kind="lib" path="jar/restfb-1.34.1.jar" sourcepath="jar/restfb-1.34.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
