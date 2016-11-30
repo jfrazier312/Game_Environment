@@ -45,19 +45,19 @@ public class GamePlayController {
 		myStage = aStage;
 		myKeySet = new HashSet<KeyCode>();
 		myStack = new StackPane();
-		myScene = new Scene(myStack, myStage.getWidth(), myStage.getHeight());
+		//myScene = new Scene(myStack, myStage.getWidth(), myStage.getHeight());
 		//myScene.setOnKeyPressed(e -> handleKeyPress(e.getCode()));
 		//myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 		myGUIGenerator = new GUIGenerator();
 		mySprites = new HashMap<Sprite, ImageView>();
 		myBackground = new BackgroundDisplayFactory();
 		initializeEngine(aFile, 0);
-		initializeAnimation();
 		initializeScene();
 	}
 	
 	public void displayGame() {
 		initializeGameScene();
+		initializeAnimation();
 		setMenu();
 		resetStage();
 	}
@@ -85,6 +85,7 @@ public class GamePlayController {
 
 	private void initializeGameScene() {
 		myGamePlay = new AnimationScene(myScene, myStage.getWidth(), myStage.getHeight());
+		//System.out.println(myGamePlay);
 		myStack.getChildren().add(myGamePlay.init());
 		myHeadsUpDisplay = new HeadsUpDisplay(myScene, myStage.getWidth(), myStage.getHeight());
 		myStack.getChildren().add(myHeadsUpDisplay.init());
@@ -99,7 +100,6 @@ public class GamePlayController {
 	}
 
 	private void deleteSprites() {
-		//mySprites = new HashMap<Sprite, ImageView>();
 		myGamePlay.clear();
 	}
 	

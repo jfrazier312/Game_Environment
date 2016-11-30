@@ -16,7 +16,6 @@ import javafx.scene.paint.Paint;
 public class BackgroundDisplayFactory {
 	
 	public Background buildBackgroundDisplay(String aFileName, double aWidth, double aHeight)  {//throws FileNotFoundException {
-		System.out.println(new File(aFileName).toURI().toString());
 		Image image = new Image(new File(aFileName).toURI().toString(), 
 				aWidth, 
 				aHeight, 
