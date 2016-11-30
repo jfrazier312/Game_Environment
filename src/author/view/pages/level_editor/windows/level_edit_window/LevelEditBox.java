@@ -5,12 +5,14 @@ package author.view.pages.level_editor.windows.level_edit_window;
 
 
 import java.io.File;
+
 import author.view.util.FileLoader;
 import author.view.util.FileLoader.FileType;
 import author.view.util.authoring_buttons.ButtonFactory;
 import game_data.Level;
 import javafx.beans.value.ChangeListener;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,9 +28,10 @@ class LevelEditBox {
 	//private static final String levelEditResources ="author.view.resources.LevelEditResources.properties";
 	private String backgroundPath;
 	private TextField nameField = new TextField();
-	private TextField widthField = createNumberField();
-	private TextField heightField = createNumberField();
 	private Level level;
+	
+	private static final int DEFAULT_LEVEL_WIDTH = 700;
+	private static final int DEFAULT_LEVEL_HEIGHT = 550;
 	
 	private VBox container;
 	LevelEditBox() {
@@ -41,8 +44,6 @@ class LevelEditBox {
 		this.level = aLevel;
 		this.backgroundPath = aLevel.getBackgroundImageFilePath();
 		this.nameField.setText(aLevel.getName());
-		this.widthField.setText(new Integer(aLevel.getWidth()).toString());
-		this.heightField.setText(new Integer(aLevel.getHeight()).toString());
 	}
 	
 	public VBox getEditBox(){
@@ -53,10 +54,11 @@ class LevelEditBox {
 		try{
 			this.level.setBackgroundImageFilePath(this.backgroundPath);
 			this.level.setName(nameField.getText());
-			this.level.setWidth(Integer.parseInt(widthField.getText()));
-			this.level.setHeight(Integer.parseInt(heightField.getText()));
+			this.level.setWidth(DEFAULT_LEVEL_WIDTH);
+			this.level.setHeight(DEFAULT_LEVEL_HEIGHT);
 		}
 		catch (NumberFormatException e) {
+			//  LOL
 		}
 		
 		return this.level;
@@ -64,11 +66,11 @@ class LevelEditBox {
 	
 	
 	private VBox initializeVBox(){
-		VBox editBox = new VBox();
+		VBox editBox = new VBox(5);
+		editBox.setPadding(new Insets(3));
+		editBox.setAlignment(Pos.CENTER);
 		
 		editBox.getChildren().add(createHBox(new Label("Name: "), nameField));
-		editBox.getChildren().add(createHBox(new Label("Width:"), widthField));
-		editBox.getChildren().add(createHBox(new Label("Height:"), heightField));
 		editBox.getChildren().add(new ButtonFactory().createButton("Choose Background", e -> updateBackgroundString()).getButton());
 		return editBox;
 	}

@@ -36,8 +36,8 @@ public class AuthorView {
 	private ILevelEditorExternal myLevelEditor;
 
 	// TODO move these to properties, as well as button names
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 650;
+	public static final int WIDTH = 1000;
+	public static final int HEIGHT = 800;
 
 	public AuthorView(IAuthorController authorController) {
 		this.authorController = authorController;

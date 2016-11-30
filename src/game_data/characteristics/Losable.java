@@ -14,5 +14,6 @@ public class Losable{
 	@ParameterAnnotation(parameters = {})
 	public Losable(){
 		//literally do nothing
+		//should access the health state and change isAlive to false
 	}
 }

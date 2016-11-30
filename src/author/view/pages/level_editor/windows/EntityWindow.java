@@ -1,9 +1,12 @@
 package author.view.pages.level_editor.windows;
 
+import java.util.Set;
+
 import author.controller.IAuthorController;
 import author.model.game_observables.draggable_sprite.ConcreteDraggableSprite;
 import author.model.game_observables.draggable_sprite.DraggableSprite;
 import author.view.util.ToolBarBuilder;
+import game_data.Sprite;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -74,9 +77,10 @@ public class EntityWindow extends AbstractLevelEditorWindow {
 	@Override
 	protected void initListener(IAuthorController authorController) {
 		authorController.getModel().getGame().addListener((game) -> {
-			this.container.getChildren().clear();
-			authorController.getModel().getGame().getPresets().forEach((sprite) -> {
+			Set<Sprite> sprites = this.getNewSprites(this.getDraggableSprites(), authorController.getModel().getGame().getPresets());
+			sprites.forEach((sprite) -> {
 				DraggableSprite dragSprite = new ConcreteDraggableSprite(sprite);
+				this.addDraggableSprite(dragSprite);
 				this.container.getChildren().add(dragSprite.getImageView());
 			});
 		});
