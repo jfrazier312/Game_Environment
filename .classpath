@@ -8,7 +8,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/voogasalad_experiments/lib/xstream-doc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/restfb-1.34.1.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/client-combined-3.0.1-nodeps.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/cglib-nodep-3.2.4.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/commons-codec-1.10.jar"/>
@@ -43,5 +42,6 @@
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xalan-2.7.2.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xercesImpl-2.11.0.jar"/>
 	<classpathentry kind="lib" path="/Users/hannahfuchshuber/Downloads/selenium-java-3.0.1 2/lib/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="jar/restfb-1.34.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
