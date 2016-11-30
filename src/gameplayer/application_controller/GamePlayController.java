@@ -18,6 +18,7 @@ import gameplayer.front_end.heads_up_display.HeadsUpDisplay;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -35,7 +36,6 @@ public class GamePlayController {
 	private Map<Sprite, ImageView> mySprites;
 	private Set<KeyCode> myKeySet;
 	private GUIGenerator myGUIGenerator;
-	private BackgroundDisplayFactory myBackground; 
 	
 	public GamePlayController(Stage aStage, File aFile) {
 		myStage = aStage;
@@ -43,7 +43,6 @@ public class GamePlayController {
 		myStack = new StackPane();
 		myGUIGenerator = new GUIGenerator();
 		mySprites = new HashMap<Sprite, ImageView>();
-		myBackground = new BackgroundDisplayFactory();
 		myGameEngine = new GameEngine(aFile, 0);
 	}
 	
@@ -88,7 +87,8 @@ public class GamePlayController {
 	}
 	
 	private void setBackground(String aBackgroundImageFilePath, double aWidth, double aHeight) {
-		myGamePlay.setBackground(myBackground.buildBackgroundDisplay(aBackgroundImageFilePath, aWidth, aHeight));
+		Background backgroundDisplay = new BackgroundDisplayFactory().buildBackgroundDisplay(aBackgroundImageFilePath, aWidth, aHeight);
+		myStack.setBackground(backgroundDisplay);
 	}
 
 	private void deleteSprites() {
