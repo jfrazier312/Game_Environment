@@ -27,11 +27,7 @@ public class TextFieldBox {
 		this();
 		getLabel().setText(aText);
 	}
-	
-	public String getText(){
-		return getTextField().getText();
-	}
-	
+
 	public Pane getPane() {
 		return myPane;
 	}

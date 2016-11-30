@@ -26,25 +26,26 @@ public abstract class BaseSpriteEditPage {
 	private SpriteCharacteristicEditor myCharacteristicEditor;
 	private TabPaneFacade myTabPaneFacade;
 	
-	public BaseSpriteEditPage(Sprite aSprite){
-		mySprite = aSprite;
-		
+	public BaseSpriteEditPage(){
 		myPane = new VBox();
+		myCharacteristicEditor = new SpriteCharacteristicEditor();
 		myTabPaneFacade = new TabPaneFacade();
 		myToolBarBuilder = new ToolBarBuilder();
 		mySpriteEditBox = new BaseSpriteEditBox();
-		myCharacteristicEditor = new SpriteCharacteristicEditor(mySprite);
 		
 		myTabPaneFacade.addTab("Base", mySpriteEditBox.getPane());
 		myTabPaneFacade.addTab("Characteristics", this.myCharacteristicEditor.getNode());
 		myPane.getChildren().addAll(myToolBarBuilder.getToolBar(), myTabPaneFacade.getTabPane());
-		Button buildButton = new ButtonFactory().createButton("save", e -> {
-			buildSprite();
-			myCharacteristicEditor.addCharacteristics();
-		}  ).getButton();
+		Button buildButton = new ButtonFactory().createButton("save", e -> buildSprite()).getButton();
 		myToolBarBuilder.addBurst(new Label(getSpriteType()));
 		myToolBarBuilder.addBurst(buildButton);
 
+		
+	}
+
+	public BaseSpriteEditPage(Sprite aSprite){
+		this();
+		mySprite = aSprite;
 		mySpriteEditBox.setLocation(aSprite.getMyLocation());
 		mySpriteEditBox.setImageFile(aSprite.getMyImagePath());
 		mySpriteEditBox.setName(aSprite.getName());

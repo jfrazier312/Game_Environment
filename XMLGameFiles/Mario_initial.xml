@@ -1,8 +1,4 @@
 <game__data.Game>
-<<<<<<< HEAD
-  <invalidationListeners class="set"/>
-=======
->>>>>>> d939bc72115a9c0fba1143c46d6b13f9138e3223
   <name>Mario</name>
   <myLevels/>
   <spritePresets/>

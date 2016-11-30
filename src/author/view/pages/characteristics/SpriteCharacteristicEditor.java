@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import game_data.Sprite;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -21,10 +20,8 @@ public class SpriteCharacteristicEditor {
 	private Accordion myAccordion;
 	private List<CharacteristicEditBox> myCharacteristicEditBoxList;
 	private CharacteristicSelector myCharacteristicSelector;
-	private Sprite mySprite;
 	
-	public SpriteCharacteristicEditor(Sprite aSprite) {
-		mySprite = aSprite;
+	public SpriteCharacteristicEditor() {
 		myPane = new HBox(5);
 		myAccordion = new Accordion();
 		myCharacteristicEditBoxList = new ArrayList<>();
@@ -33,12 +30,11 @@ public class SpriteCharacteristicEditor {
 		myPane.getChildren().add(myCharacteristicSelector.getPane());
 		
 		for(Entry<String, BooleanProperty> e: myCharacteristicSelector.getCharacteristicSelectedMap().entrySet()){
-			if(e.getKey().equals("Characteristic")) continue;
-			
-			CharacteristicEditBox editBox = new CharacteristicEditBox(aSprite, e.getKey());
+			CharacteristicEditBox editBox = new CharacteristicEditBox();
 			myCharacteristicEditBoxList.add(editBox);	
 			
 			TitledPane charTitledPane = new TitledPane(e.getKey(), editBox.getPane());
+			//charTitledPane.visibleProperty().bind(e.getValue());
 			charTitledPane.disableProperty().bind(e.getValue().not());
 			
 			myAccordion.getPanes().add(charTitledPane);
@@ -54,10 +50,6 @@ public class SpriteCharacteristicEditor {
 		
 	}
 
-	public void addCharacteristics(){
-		myCharacteristicEditBoxList.forEach( e -> mySprite.addCharacteristic(e.getCharacteristic()));
-	}
-	
 	public Node getNode(){
 		return myPane;
 	}

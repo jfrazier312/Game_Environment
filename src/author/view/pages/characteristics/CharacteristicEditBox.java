@@ -1,14 +1,12 @@
 package author.view.pages.characteristics;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import author.view.pages.characteristics.CharacteristicFactory.AcceptedParameterTypes;
 import author.view.util.BooleanSelector;
 import author.view.util.NumberFieldBox;
 import author.view.util.TextFieldBox;
-import game_data.Sprite;
 import game_data.characteristics.Characteristic;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -16,69 +14,43 @@ import javafx.scene.layout.VBox;
 class CharacteristicEditBox {
 
 	private Pane myPane;
-	private CharacteristicFactory myFactory;
-	
-	private Map<String, BooleanSelector> myBoolSelectList;
-	private Map<String, NumberFieldBox> myIntegerFieldList;
-	private Map<String, NumberFieldBox> myDoubleFieldList;
-	private Map<String, TextFieldBox> myTextFieldBoxList;
+	private Characteristic myCharacteristic;
 
-	CharacteristicEditBox(Sprite aSprite, String aName) {
-		myFactory = new CharacteristicFactory(aName, aSprite);
-		
+	private List<BooleanSelector> myBoolSelectList;
+	private List<NumberFieldBox> myNumberFieldList;
+	private List<TextFieldBox> myTextFieldBoxList;
+
+	CharacteristicEditBox() {
 		myPane = new VBox();
-		myBoolSelectList = new HashMap<>();
-		myDoubleFieldList = new HashMap<>();
-		myIntegerFieldList = new HashMap<>();
-		myTextFieldBoxList = new HashMap<>();
+		myBoolSelectList = new ArrayList<>();
+		myNumberFieldList = new ArrayList<>();
+		myTextFieldBoxList = new ArrayList<>();
 
-		buildSelectors();
+		addBooleanSelectors(new BooleanSelector("Boolean Selector"));
+		addNumberFields(new NumberFieldBox("Number Field"));
+		addTextBoxes(new TextFieldBox("Text Field"));
 	}
 
-	void buildSelectors(){
-		Map<String, AcceptedParameterTypes> paramMap = myFactory.getParameterTextToTypeMap();
-		
-		for( Entry<String, AcceptedParameterTypes> e: paramMap.entrySet()) {
-			
-			switch (e.getValue()) {
-			case BOOL:
-				addBooleanSelectors(e.getKey(), new BooleanSelector(e.getKey()) );
-				break;
-			case INT:
-				addIntegerBox(e.getKey(), new NumberFieldBox(e.getKey()) );
-				break;
-			case DOUBLE:
-				addDoubleBox(e.getKey(), new NumberFieldBox(e.getKey()) );
-				break;
-			case STRING:
-				addTextBoxes(e.getKey(), new TextFieldBox(e.getKey()) );
-				break;
-			case UNACCEPTABLE:
-			case SPRITE:
-			default:
-				break;
-			}
-		}
+	void addTextBoxes( TextFieldBox... aTextFieldBoxes ){
+		Arrays.asList( aTextFieldBoxes ).forEach( e -> {
+			myTextFieldBoxList.add(e);
+			myPane.getChildren().add(e.getPane());
+		});
 	}
 	
-	private void addTextBoxes( String aText, TextFieldBox aTextFieldBox ){
-			myTextFieldBoxList.put(aText, aTextFieldBox);
-			myPane.getChildren().add(aTextFieldBox.getPane());
+	void addBooleanSelectors( BooleanSelector... aBooleanSelectors ){
+		Arrays.asList( aBooleanSelectors ).forEach( e -> {
+			myBoolSelectList.add(e);
+			myPane.getChildren().add(e.getPane());
+		});		
 	}
 	
-	private void addBooleanSelectors( String aText, BooleanSelector aBooleanSelector ){
-		myBoolSelectList.put(aText, aBooleanSelector);
-		myPane.getChildren().add(aBooleanSelector.getPane());
-	}
-	
-	private void addIntegerBox(String aText, NumberFieldBox aNumberField ){
-		myIntegerFieldList.put(aText, aNumberField);
-		myPane.getChildren().add(aNumberField.getPane());
-	}
-	
-	private void addDoubleBox(String aText, NumberFieldBox aNumberField){
-		myDoubleFieldList.put(aText, aNumberField);
-		myPane.getChildren().add(aNumberField.getPane());
+	void addNumberFields( NumberFieldBox... aNumberFields ){
+		Arrays.asList( aNumberFields ).forEach( e -> {
+			myNumberFieldList.add(e);
+			myPane.getChildren().add(e.getPane());
+		});
+		myNumberFieldList.addAll( Arrays.asList(aNumberFields) );
 	}
 	
 	Pane getPane(){
@@ -86,13 +58,6 @@ class CharacteristicEditBox {
 	}	
 
 	Characteristic getCharacteristic(){
-		Map<String, Object> textToValueMap = new HashMap<>();
-		
-		myBoolSelectList.forEach( (s, b) -> textToValueMap.put(s, b.getBoolean()) );
-		myIntegerFieldList.forEach( (s, n) -> textToValueMap.put(s, n.getInteger()));
-		myDoubleFieldList.forEach( (s, d) -> textToValueMap.put(s, d.getDouble()));
-		myTextFieldBoxList.forEach( (s, t) -> textToValueMap.put(s, t.getText()));
-		
-		return myFactory.getCharacteristicInstance(textToValueMap);
+		return myCharacteristic;
 	}
 }

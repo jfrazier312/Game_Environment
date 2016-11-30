@@ -5,9 +5,8 @@ import game_data.Sprite;
 
 public class ProjectileSpriteEditPage extends BaseSpriteEditPage {
 
-	public ProjectileSpriteEditPage(Sprite aSprite) {
-		super(aSprite);
-		// TODO Auto-generated constructor stub
+	public ProjectileSpriteEditPage() {
+		super();
 	}
 
 	@Override
