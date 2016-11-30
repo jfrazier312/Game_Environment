@@ -16,8 +16,9 @@ public class Bounce implements Action {
 	@Override
 	public void act() {
 		//System.out.println("poop");
-		myPlayerSprite.setMyVelocity((myPlayerSprite.getMyVelocity()) + myBounceSpeed);
-		myPlayerSprite.getMyLocation().setMyHeading(myPlayerSprite.getMyLocation().getMyHeading()+Math.PI);
+		//myPlayerSprite.setMyVelocity((myPlayerSprite.getMyVelocity()) + myBounceSpeed);
+		//myPlayerSprite.getMyLocation().setMyHeading(myPlayerSprite.getMyLocation().getMyHeading()+Math.PI);
+		myPlayerSprite.setMyVelocity(0);
 		}
 
 	}
