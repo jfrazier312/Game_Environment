@@ -1,6 +1,7 @@
 package game_data.characteristics;
 
 import game_data.characteristics.characteristic_annotations.CharacteristicAnnotation;
+import game_data.characteristics.characteristic_annotations.ParameterAnnotation;
 
 /**
  * @author austingartside
@@ -9,7 +10,8 @@ import game_data.characteristics.characteristic_annotations.CharacteristicAnnota
  */
 @CharacteristicAnnotation(name = "Losable")
 public class Losable{
-
+	
+	@ParameterAnnotation(parameters = {})
 	public Losable(){
 		//literally do nothing
 		//should access the health state and change isAlive to false

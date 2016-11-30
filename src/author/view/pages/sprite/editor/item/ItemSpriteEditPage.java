@@ -5,10 +5,11 @@ import game_data.Sprite;
 
 public class ItemSpriteEditPage extends BaseSpriteEditPage {
 
-	public ItemSpriteEditPage(){
-		super();
+	public ItemSpriteEditPage(Sprite aSprite) {
+		super(aSprite);
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public String getSpriteType() {
 		return "Item Editor";
