@@ -53,6 +53,7 @@ public class LoginScene extends AbstractPlayerScene {
 		myLoginOptions.setAlignment(Pos.CENTER);
 		myOptions.getChildren().add(myLoginOptions);
 		myOptions.setAlignment(Pos.CENTER);
+		myOptions.getAlignment();
 		return myOptions;
 	}
 	
