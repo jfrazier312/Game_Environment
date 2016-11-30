@@ -1,8 +1,11 @@
 package gameplayer.front_end.application_scene;
+import java.util.Set;
+
 import game_data.Sprite;
 import gameplayer.front_end.background_display.BackgroundDisplayFactory;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 
@@ -63,5 +66,15 @@ public class AnimationScene {
 	public void setBackground(String aFilePath, int aWidth, int aHeight){
 		Background backgroundDisplay = new BackgroundDisplayFactory().buildBackgroundDisplay(aFilePath, aWidth, aHeight);
 		myGamePlayCanvas.setBackground(backgroundDisplay);
+	}
+	
+	public void moveScreen(Set<KeyCode> myKeySet) {
+		for (KeyCode key : myKeySet) {
+			if (key.equals(KeyCode.RIGHT)) {
+				System.out.println("hi");
+				myGamePlayCanvas.setTranslateX(myGamePlayCanvas.getLayoutX() + 100);
+				System.out.println(myGamePlayCanvas.getLayoutBounds());
+			}
+		}
 	}
 }

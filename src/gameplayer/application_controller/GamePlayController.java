@@ -6,9 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import game_data.Location;
 import game_data.Sprite;
-import game_data.sprites.Player;
 import game_engine.EnginePlayerController;
 import game_engine.GameEngine;
 import game_engine.UpdateGame;
@@ -16,13 +14,11 @@ import gameplayer.animation_loop.AnimationLoop;
 import gameplayer.front_end.application_scene.AnimationScene;
 import gameplayer.front_end.gui_generator.GUIGenerator;
 import gameplayer.front_end.background_display.BackgroundDisplayFactory;
-import gameplayer.front_end.gui_generator.IGUIGenerator.ButtonDisplay;
 import gameplayer.front_end.heads_up_display.HeadsUpDisplay;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class GamePlayController {
@@ -45,25 +41,22 @@ public class GamePlayController {
 		myStage = aStage;
 		myKeySet = new HashSet<KeyCode>();
 		myStack = new StackPane();
-		//myScene = new Scene(myStack, myStage.getWidth(), myStage.getHeight());
-		//myScene.setOnKeyPressed(e -> handleKeyPress(e.getCode()));
-		//myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 		myGUIGenerator = new GUIGenerator();
 		mySprites = new HashMap<Sprite, ImageView>();
 		myBackground = new BackgroundDisplayFactory();
-		initializeEngine(aFile, 0);
-		initializeScene();
+		myGameEngine = new GameEngine(aFile, 0);
 	}
 	
 	public void displayGame() {
+		initializeEngine();
+		initializeScene();
 		initializeGameScene();
 		initializeAnimation();
 		setMenu();
 		resetStage();
 	}
 
-	private void initializeEngine(File aFile, int level) {
-		myGameEngine = new GameEngine(aFile, level);
+	private void initializeEngine() {
 		myGameController = myGameEngine.getMyEnginePlayerController();
 		myGameUpdater = new UpdateGame();
 	}
@@ -73,16 +66,7 @@ public class GamePlayController {
 		myScene.setOnKeyPressed(e -> handleKeyPress(e.getCode()));
 		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 	}
-
-	private void initializeAnimation() {
-		myAnimationLoop = new AnimationLoop();
-		myAnimationLoop.init( elapsedTime -> {
-			deleteSprites();
-			myGameUpdater.update(myGameController.getMyGame(), elapsedTime, myKeySet, mySprites);;
-			updateSprites();
-		});
-	}
-
+	
 	private void initializeGameScene() {
 		myGamePlay = new AnimationScene(myScene, myStage.getWidth(), myStage.getHeight());
 		//System.out.println(myGamePlay);
@@ -92,11 +76,19 @@ public class GamePlayController {
 		setBackground(myGameController.getMyBackgroundImageFilePath(), myStage.getWidth(), myStage.getHeight());
 		updateSprites();
 	}
+
+	private void initializeAnimation() {
+		myAnimationLoop = new AnimationLoop();
+		myAnimationLoop.init( elapsedTime -> {
+			deleteSprites();
+			myGameUpdater.update(myGameController.getMyGame(), elapsedTime, myKeySet, mySprites);
+			myGamePlay.moveScreen(myKeySet);
+			updateSprites();
+		});
+	}
 	
 	private void setBackground(String aBackgroundImageFilePath, double aWidth, double aHeight) {
-		//System.out.println(aBackgroundImageFilePath);
 		myGamePlay.setBackground(myBackground.buildBackgroundDisplay(aBackgroundImageFilePath, aWidth, aHeight));
-		//myGamePlay.setBackground(aBackgroundImageFilePath, (int) aWidth, (int) aHeight);
 	}
 
 	private void deleteSprites() {
@@ -107,16 +99,12 @@ public class GamePlayController {
 		for(Sprite sprite : myGameController.getMySpriteList()) {
 			addSpriteToScene(sprite);
 		}
-		//addSpriteToScene(new Player(new Location(227, 369, 0), 50, 50, "poop", "author/images/MarioSMBW.png"));
 	}
-	
-
 	
 	private void addSpriteToScene(Sprite aSprite) {
 		mySprites.put(aSprite, myGamePlay.addSpriteToScene(aSprite));
 	}
 	
-//austin is great
 	private void setMenu() {
 		String[] names = {"Main Menu"};
 		ImageView image = myGUIGenerator.createImage("data/gui/clip_art_hawaiian_flower.png",30);
@@ -140,14 +128,9 @@ public class GamePlayController {
 	
 	private void handleKeyPress(KeyCode aKey) {
         myKeySet.add(aKey);
-        //System.out.println("new");
-        //for (KeyCode key : myKeySet) {
-        	//System.out.println(key);
-        //}
 	}
 	
 	private void handleKeyRelease(KeyCode key) {
-		//System.out.println(myKeySet);
 		myKeySet.remove(key);
 	}
 }
