@@ -25,12 +25,24 @@ public class ListOfCollidingSprites {
 	
 	private Map<Sprite, Side> getListOfSpritesCollided(){
 		collisionSprites = new HashMap<Sprite, Side>();
-		
+		//System.out.println(spriteList.size());
 		for(Sprite mySprite:spriteList){
-			if(mySprite != targetSprite && mySpriteImages.get(mySprite).getBoundsInLocal().intersects(mySpriteImages.get(targetSprite).getBoundsInLocal())){
+			//System.out.println(mySprite.getName());
+//			if(!mySprite.getName().equals(targetSprite.getName())){
+//				System.out.println("target is " + targetSprite.getMyLocation().getYLocation());
+//				System.out.println("other is " + mySprite.getMyLocation().getYLocation());
+//			}
+			//if(mySprite != targetSprite && mySpriteImages.get(mySprite).getBoundsInLocal().intersects(mySpriteImages.get(targetSprite).getBoundsInLocal())){
+			//if(!mySprite.getName().equals(targetSprite.getName()) && mySpriteImages.get(mySprite).getBoundsInLocal().intersects(mySpriteImages.get(targetSprite).getBoundsInLocal())){
+			/*if(!mySprite.getName().equals(targetSprite.getName()) && mySpriteImages.get(mySprite).getBoundsInParent().intersects(mySpriteImages.get(targetSprite).getBoundsInParent())){
+				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
+			}*/
+			if(!mySprite.getName().equals(targetSprite.getName()) && mySprite.getMyLocation().getYLocation()<targetSprite.getMyLocation().getYLocation()+10
+					&&mySprite.getMyLocation().getYLocation()>targetSprite.getMyLocation().getYLocation()-10){
 				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
 			}
 		}	
+		System.out.println("numColliding " + collisionSprites.size());
 		return collisionSprites;
 	}
 
