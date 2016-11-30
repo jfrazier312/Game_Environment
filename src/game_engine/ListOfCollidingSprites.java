@@ -42,7 +42,7 @@ public class ListOfCollidingSprites {
 				collisionSprites.put(mySprite, findSideOfCollission(mySprite, targetSprite));
 			}
 		}	
-		System.out.println("numColliding " + collisionSprites.size());
+		//System.out.println("numColliding " + collisionSprites.size());
 		return collisionSprites;
 	}
 
