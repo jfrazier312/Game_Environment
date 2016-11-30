@@ -3,8 +3,10 @@ import game_data.Game;
 import game_data.Level;
 import game_data.Location;
 import game_data.Sprite;
+import game_data.characteristics.Bouncer;
 import game_data.sprites.Character;
 import game_data.sprites.Player;
+import game_data.sprites.Terrain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,15 @@ public class EnginePlayerController implements IEnginePlayerControllerInterface 
 	public EnginePlayerController(Game game){
 		myGame=game;
 		myLevel=myGame.getCurrentLevel();
-		//temporary to see if moving the player works
+		//temporary to see if moving the player works, hardcoded
 		myLevel.setPlayerSprite((Player)myLevel.getMySpriteList().get(0));
 		myLevel.getMainPlayer().addState(new Physics(new SpritePhysics()));
 		myLevel.getMainPlayer().getMyLocation().setMyHeading(-1*270*Math.PI/180);
+		
+		myLevel.addNewSprite(new Terrain(new Location(226, 500, 90), 100, 100, "block", "author/images/duvall_scary.png"));
+		myLevel.getMySpriteList().get(1).addCharacteristic(new Bouncer(20, myLevel.getMySpriteList().get(1)));
+		myLevel.getMySpriteList().get(1).addState(new Physics(new SpritePhysics(0.0)));
+		
 		//end temporary stuff
 		mySpriteList=myLevel.getMySpriteList();
 		myBackgroundImageFilePath=myLevel.getBackgroundImageFilePath();
