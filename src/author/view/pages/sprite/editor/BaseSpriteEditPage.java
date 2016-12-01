@@ -25,12 +25,6 @@ public abstract class BaseSpriteEditPage {
 	private BaseSpriteEditBox mySpriteEditBox;
 	private SpriteCharacteristicEditor myCharacteristicEditor;
 	private TabPaneFacade myTabPaneFacade;
-	
-	public BaseSpriteEditPage(){
-		
-
-		
-	}
 
 	public BaseSpriteEditPage(Sprite aSprite){
 		mySprite = aSprite;

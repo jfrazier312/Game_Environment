@@ -5,8 +5,8 @@ import game_data.Sprite;
 
 public class ItemSpriteEditPage extends BaseSpriteEditPage {
 
-	public ItemSpriteEditPage(){
-		super();
+	public ItemSpriteEditPage(Sprite aSprite){
+		super(aSprite);
 	}
 	
 	@Override
