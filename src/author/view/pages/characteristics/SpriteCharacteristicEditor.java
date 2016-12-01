@@ -55,7 +55,17 @@ public class SpriteCharacteristicEditor {
 	}
 
 	public void addCharacteristics(){
-		myCharacteristicEditBoxList.forEach( e -> mySprite.addCharacteristic(e.getCharacteristic()));
+		myCharacteristicEditBoxList.forEach( e -> {
+			String charName = e.getName();
+			
+			Boolean charIsAvailable = myCharacteristicSelector
+					.getCharacteristicSelectedMap()
+					.get(e.getName())
+					.getValue();
+			
+			if ( charIsAvailable ) mySprite.addCharacteristic(e.getCharacteristic());
+			
+		});
 	}
 	
 	public Node getNode(){

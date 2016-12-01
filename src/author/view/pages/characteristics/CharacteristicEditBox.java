@@ -17,6 +17,7 @@ class CharacteristicEditBox {
 
 	private Pane myPane;
 	private CharacteristicFactory myFactory;
+	private String myName;
 	
 	private Map<String, BooleanSelector> myBoolSelectList;
 	private Map<String, NumberFieldBox> myIntegerFieldList;
@@ -24,6 +25,7 @@ class CharacteristicEditBox {
 	private Map<String, TextFieldBox> myTextFieldBoxList;
 
 	CharacteristicEditBox(Sprite aSprite, String aName) {
+		myName = aName;
 		myFactory = new CharacteristicFactory(aName, aSprite);
 		
 		myPane = new VBox();
@@ -84,6 +86,10 @@ class CharacteristicEditBox {
 	Pane getPane(){
 		return myPane;
 	}	
+	
+	String getName(){
+		return myName;
+	}
 
 	Characteristic getCharacteristic(){
 		Map<String, Object> textToValueMap = new HashMap<>();

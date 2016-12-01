@@ -2,6 +2,7 @@ package author.view.pages.characteristics;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -97,18 +98,12 @@ public class CharacteristicFactory {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			System.out.println("For now this does nothing [Characteristic Factory]");
+			System.out.print(Arrays.asList(parameters));
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	////####################################//
-	//public static void main(String[] args){
-	//	CharacteristicFactory cf = new CharacteristicFactory("Breakable", null);
-	//}
-	////####################################//
-	
-	
+		
 	public Map<String, AcceptedParameterTypes> getParameterTextToTypeMap() {
 		return myParameterTextToTypeMap;
 	} 

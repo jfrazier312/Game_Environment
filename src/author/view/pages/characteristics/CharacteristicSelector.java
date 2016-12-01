@@ -1,6 +1,5 @@
 package author.view.pages.characteristics;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
