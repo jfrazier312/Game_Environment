@@ -32,6 +32,7 @@ public class GamePlayController {
 	private EnginePlayerController myGameController;
 	private UpdateGame myGameUpdater;
 	private GameEngine myGameEngine;
+	private File myGameFile;
 	private AnimationLoop myAnimationLoop;
 	private Map<Sprite, ImageView> mySprites;
 	private Set<KeyCode> myKeySet;
@@ -44,6 +45,7 @@ public class GamePlayController {
 		myGUIGenerator = new GUIGenerator();
 		mySprites = new HashMap<Sprite, ImageView>();
 		myGameEngine = new GameEngine(aFile, 0);
+		myGameFile = aFile;
 	}
 	
 	public void displayGame() {
@@ -116,7 +118,9 @@ public class GamePlayController {
 		});
 		String[] namesForGamePlay = {"Restart", "Change to Red"};
 		myHeadsUpDisplay.addMenu("GAME PLAY", namesForGamePlay, e -> {
-			displayGame();
+			myAnimationLoop.stop();
+			GamePlayController gameControl = new GamePlayController(myStage, myGameFile);
+			gameControl.displayGame();
 		}, e -> {
 			myGamePlay.makeRed();
 		});
