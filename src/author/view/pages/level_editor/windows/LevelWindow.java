@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-
 import author.controller.IAuthorController;
 import author.model.game_observables.draggable_sprite.ConcreteMovableSprite;
 import author.model.game_observables.draggable_sprite.DraggableSprite;
@@ -156,6 +155,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 					}
 					
 				}
+				db.clear();
 				event.setDropCompleted(success);
 				event.consume();
 			}
@@ -232,6 +232,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	}
 
 	private void updatePane(Level aLevel) {
+		System.out.println("update pane");
 		if (!this.levelPanes.containsKey(aLevel)){
 			Pane newLevelPane = createLevelPane();
 			this.levelPanes.put(aLevel, newLevelPane);
@@ -276,6 +277,7 @@ public class LevelWindow extends AbstractLevelEditorWindow {
 	private void styleSpriteImageView(Sprite sprite, DraggableSprite draggableSprite) {
 		draggableSprite.getImageView().setLayoutX(sprite.getMyLocation().getXLocation());
 		draggableSprite.getImageView().setLayoutY(sprite.getMyLocation().getYLocation());
+		draggableSprite.getImageView().setRotate(sprite.getMyLocation().getMyHeading());
 		draggableSprite.getImageView().setFitWidth(sprite.getMyWidth());
 		draggableSprite.getImageView().setFitHeight(sprite.getMyHeight());
 	}
