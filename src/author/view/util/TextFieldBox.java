@@ -39,4 +39,9 @@ public class TextFieldBox {
 	protected final Label getLabel(){
 		return myLabel;
 	}
+
+	public String getText() {
+		// TODO Auto-generated method stub
+		return getTextField().getText();
+	}
 }
