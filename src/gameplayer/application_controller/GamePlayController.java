@@ -105,6 +105,7 @@ public class GamePlayController {
 		mySprites.put(aSprite, myGamePlay.addSpriteToScene(aSprite));
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setMenu() {
 		String[] names = {"Main Menu"};
 		ImageView image = myGUIGenerator.createImage("data/gui/clip_art_hawaiian_flower.png",30);
@@ -133,4 +134,6 @@ public class GamePlayController {
 	private void handleKeyRelease(KeyCode key) {
 		myKeySet.remove(key);
 	}
+	
+	
 }
