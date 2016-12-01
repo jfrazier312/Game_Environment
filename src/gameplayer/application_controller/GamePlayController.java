@@ -110,6 +110,7 @@ public class GamePlayController {
 		String[] names = {"Main Menu"};
 		ImageView image = myGUIGenerator.createImage("data/gui/clip_art_hawaiian_flower.png",30);
 		myHeadsUpDisplay.addMenu(image, names, e -> {
+			myAnimationLoop.stop();
 			ApplicationController appControl = new ApplicationController(myStage);
 			appControl.displayMainMenu();
 		});
