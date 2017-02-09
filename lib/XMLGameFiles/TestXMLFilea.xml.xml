@@ -1,20 +1,3 @@
-<game__data.Game>
-  <invalidationListeners class="set">
-    <null/>
-  </invalidationListeners>
-  <name>Mario</name>
-  <myLevels>
-    <game__data.Level>
-      <invalidationListeners class="set"/>
-      <name>TestLevel</name>
-      <width>500</width>
-      <height>500</height>
-      <backgroundImageFilePath>path/spriteImage.jpg</backgroundImageFilePath>
-      <mySprites/>
-      <myKeyCommands/>
-    </game__data.Level>
-  </myLevels>
-  <spritePresets/>
-  <myXMLSaver/>
-  <currentLevel reference="../myLevels/game__data.Level"/>
-</game__data.Game>
+version https://git-lfs.github.com/spec/v1
+oid sha256:ad26fc0ae3b27f75b09d2a664d0d9fc6155c09e7b757bffdbc7df25d5f168660
+size 546

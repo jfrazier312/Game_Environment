@@ -1,21 +1,3 @@
-<game__data.Game>
-  <myStages>
-    <game__data.Stage>
-      <width>500</width>
-      <height>8000</height>
-      <backgroundImageFilePath>path/backgroundImage.jpg</backgroundImageFilePath>
-      <mySprites>
-        <game__data.Player>
-          <myLocation>
-            <myXLocation>0</myXLocation>
-            <myYLocation>0</myYLocation>
-          </myLocation>
-          <myImagePath>path/spriteImage.jpg</myImagePath>
-          <myVelocity>0</myVelocity>
-          <myHeading>0</myHeading>
-        </game__data.Player>
-      </mySprites>
-      <myKeyCommands/>
-    </game__data.Stage>
-  </myStages>
-</game__data.Game>
+version https://git-lfs.github.com/spec/v1
+oid sha256:6dde081a37f071007c33cc19ae5cbc5c762c8233267a0226927a5c0f22f1d0d4
+size 621
